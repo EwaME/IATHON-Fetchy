@@ -37,6 +37,10 @@
         <p class="text-body-sm text-on-surface-variant">
           Completa los datos y <strong id="modal-supplier-name"></strong> te contactará pronto vía WhatsApp.
         </p>
+        <div id="modal-selected-section" class="hidden bg-surface-container-low rounded-xl p-sm border border-outline-variant/30">
+          <p class="text-label-md font-bold text-on-surface-variant uppercase tracking-wider mb-xs">Servicios seleccionados</p>
+          <ul id="modal-items-list" class="space-y-xs"></ul>
+        </div>
         <div class="space-y-sm">
           <input id="quote-empresa" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary" placeholder="Nombre de tu empresa" type="text" />
           <input id="quote-email"   class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary" placeholder="Correo electrónico (opcional)" type="email" />
@@ -59,7 +63,7 @@
           name: "Logística del Norte S.A.",
           rating: 4.8, reviews: 124, distance: "1.2 km",
           categories: ["Transporte", "Distribución", "Almacenaje"],
-          phone: "50498726485", phoneDisplay: "+504 9872-6485",
+          phone: "50498726185", phoneDisplay: "+504 9872-6185",
           icon: "local_shipping",
           location: "Parque Industrial, Nave 4 (1.2 km de tu sede)",
           delivery: "24 – 48 horas",
@@ -250,12 +254,15 @@
           </div>
         `).join("");
 
-        const catalogHtml = s.catalog.map(item => `
-          <div class="flex gap-sm p-sm rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-all group">
+        const catalogHtml = s.catalog.map((item, idx) => `
+          <div class="relative flex gap-sm p-sm rounded-lg border-2 transition-all catalog-card cursor-pointer select-none" data-idx="${idx}" style="border-color:#cdc5ba">
+            <div class="toggle-ring absolute top-2 right-2 w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all" style="background:#ffffff;border-color:#cdc5ba">
+              <span class="material-symbols-outlined toggle-icon text-[16px]" style="color:#4b463d;font-size:16px">add</span>
+            </div>
             <div class="w-20 h-20 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 border border-outline-variant/20">
               <span class="material-symbols-outlined text-tertiary" style="font-size:36px">${item.icon}</span>
             </div>
-            <div class="flex flex-col justify-between py-1">
+            <div class="flex flex-col justify-between py-1 pr-6">
               <div>
                 <h3 class="font-bold text-body-md">${item.name}</h3>
                 <p class="text-body-sm text-on-surface-variant">${item.desc}</p>
@@ -352,7 +359,10 @@
             </div>
             <div class="lg:col-span-2 space-y-gutter">
               <section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow">
-                <h2 class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs">Catálogo de Servicios</h2>
+                <div class="flex justify-between items-center mb-md border-b border-outline-variant pb-xs">
+                  <h2 class="font-headline-md text-headline-md">Catálogo de Servicios</h2>
+                  <button id="select-all-btn" class="text-body-sm font-medium transition-colors" style="color:#00261a">Seleccionar todo</button>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-md">${catalogHtml}</div>
               </section>
               <section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow">
@@ -363,11 +373,95 @@
           </div>
         `;
 
+        // Selección de catálogo
+        document.querySelectorAll(".catalog-card").forEach(card => {
+          card.addEventListener("click", () => {
+            const idx        = parseInt(card.dataset.idx);
+            const toggleRing = card.querySelector(".toggle-ring");
+            const toggleIcon = card.querySelector(".toggle-icon");
+            const nowSelected = !selected.has(idx);
+            nowSelected ? selected.add(idx) : selected.delete(idx);
+            applyCardState(card, idx, nowSelected);
+            syncQuoteBtn();
+            syncSelectAllBtn();
+          });
+        });
+
+        function syncQuoteBtn() {
+          const btn = document.getElementById("quote-open-btn");
+          if (!btn) return;
+          btn.textContent = selected.size > 0
+            ? `Cotizar ${selected.size} servicio${selected.size > 1 ? "s" : ""}`
+            : "Solicitar Cotización";
+        }
+
+        function applyCardState(card, idx, isSelected) {
+          const toggleRing = card.querySelector(".toggle-ring");
+          const toggleIcon = card.querySelector(".toggle-icon");
+          if (isSelected) {
+            card.style.borderColor     = "#00261a";
+            card.style.backgroundColor = "rgba(191,237,214,0.15)";
+            toggleRing.style.background  = "#00261a";
+            toggleRing.style.borderColor = "#00261a";
+            toggleIcon.textContent = "check";
+            toggleIcon.style.color = "#ffffff";
+          } else {
+            card.style.borderColor     = "#cdc5ba";
+            card.style.backgroundColor = "";
+            toggleRing.style.background  = "#ffffff";
+            toggleRing.style.borderColor = "#cdc5ba";
+            toggleIcon.textContent = "add";
+            toggleIcon.style.color = "#4b463d";
+          }
+        }
+
+        function syncSelectAllBtn() {
+          const btn = document.getElementById("select-all-btn");
+          if (!btn) return;
+          const allSelected = selected.size === s.catalog.length;
+          btn.textContent = allSelected ? "Quitar todo" : "Seleccionar todo";
+        }
+
+        // Select / deselect all
+        document.getElementById("select-all-btn").addEventListener("click", () => {
+          const allSelected = selected.size === s.catalog.length;
+          document.querySelectorAll(".catalog-card").forEach(card => {
+            const idx = parseInt(card.dataset.idx);
+            if (allSelected) {
+              selected.delete(idx);
+            } else {
+              selected.add(idx);
+            }
+            applyCardState(card, idx, !allSelected);
+          });
+          syncQuoteBtn();
+          syncSelectAllBtn();
+        });
+
         // Botón cotización
         const openBtn = document.getElementById("quote-open-btn");
         if (openBtn) {
           openBtn.addEventListener("click", () => {
             document.getElementById("modal-supplier-name").textContent = s.name;
+            const section = document.getElementById("modal-selected-section");
+            const list    = document.getElementById("modal-items-list");
+            if (selected.size > 0) {
+              list.innerHTML = [...selected].sort((a, b) => a - b).map(idx => {
+                const item = s.catalog[idx];
+                return `<li class="flex items-center justify-between gap-sm">
+                  <span class="flex items-center gap-xs text-body-sm">
+                    <span class="material-symbols-outlined text-tertiary" style="font-size:16px">check_circle</span>
+                    ${item.name}
+                  </span>
+                  <span class="font-bold text-body-sm whitespace-nowrap" style="color:#00261a">${item.price}</span>
+                </li>`;
+              }).join("");
+              section.classList.remove("hidden");
+              document.getElementById("quote-desc").placeholder = "Comentarios adicionales (opcional)...";
+            } else {
+              section.classList.add("hidden");
+              document.getElementById("quote-desc").placeholder = "Describe el servicio que necesitas...";
+            }
             modal.classList.remove("hidden");
             modal.classList.add("flex");
           });
@@ -385,6 +479,7 @@
         });
       }
 
+      const selected = new Set();
       renderPage();
 
       // ── Modal ────────────────────────────────────────────────────────────────
@@ -404,21 +499,34 @@
         const email   = document.getElementById("quote-email").value.trim();
         const desc    = document.getElementById("quote-desc").value.trim();
 
-        if (!empresa || !desc) {
-          showToast("⚠ Completa empresa y descripción del servicio");
+        if (!empresa) {
+          showToast("⚠ Ingresa el nombre de tu empresa");
+          return;
+        }
+        if (selected.size === 0) {
+          showToast("⚠ Selecciona al menos un servicio del catálogo");
           return;
         }
 
-        const msg = [
+        const lines = [
           "Hola, me contacto a través de *Fetchy*.",
           `🏢 Empresa: ${empresa}`,
           email ? `📧 Correo: ${email}` : null,
-          `📋 Servicio requerido:\n${desc}`,
-          "\n¿Podrían enviarme una cotización?",
-        ].filter(Boolean).join("\n");
+        ];
+
+        if (selected.size > 0) {
+          lines.push("\n📋 *Servicios de interés:*");
+          [...selected].sort((a, b) => a - b).forEach(idx => {
+            const item = s.catalog[idx];
+            lines.push(`• ${item.name} — ${item.price}`);
+          });
+        }
+
+        if (desc) lines.push(`\n💬 Comentarios: ${desc}`);
+        lines.push("\n¿Podrían enviarme una cotización formal?");
 
         closeModal();
-        window.open(`https://wa.me/${s.phone}?text=${encodeURIComponent(msg)}`, "_blank");
+        window.open(`https://wa.me/${s.phone}?text=${encodeURIComponent(lines.filter(Boolean).join("\n"))}`, "_blank");
       });
     </script>
   </body>

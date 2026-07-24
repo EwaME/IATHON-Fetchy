@@ -66,7 +66,6 @@
               <select
                 class="w-full pl-11 pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-on-tertiary-container text-body-sm transition-all cursor-pointer"
               >
-                <option>Cercanía</option>
                 <option>Calificación</option>
                 <option>Categoría</option>
               </select>
@@ -135,7 +134,7 @@
           </div>
           <div class="flex items-center gap-xs text-body-sm text-on-surface-variant mb-sm">
             <span class="material-symbols-outlined text-[16px]">call</span>
-            +504 9872-6485
+            +504 9872-6185
           </div>
           <div
             class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
@@ -494,15 +493,19 @@
       const cardGrid = document.querySelector("section.grid");
       const providerCards = Array.from(cardGrid.querySelectorAll("a"));
 
-      const suppliersData = providerCards.map((card) => ({
-        el: card,
-        rating: parseFloat(card.querySelector(".font-bold.text-body-sm")?.textContent || "0"),
-        distance: parseFloat(card.querySelector(".text-label-md")?.textContent || "99"),
-        name: card.querySelector("h3")?.textContent.toLowerCase() || "",
-        tags: Array.from(card.querySelectorAll(".bg-secondary-container"))
-          .map((t) => t.textContent.toLowerCase())
-          .join(" "),
-      }));
+      const suppliersData = providerCards.map((card) => {
+        const distTxt = card.querySelector(".text-label-md")?.textContent || "";
+        const distMatch = distTxt.match(/(\d+\.?\d*)\s*km/);
+        return {
+          el: card,
+          rating: parseFloat(card.querySelector(".font-bold.text-body-sm")?.textContent || "0"),
+          distance: distMatch ? parseFloat(distMatch[1]) : 99,
+          name: card.querySelector("h3")?.textContent.toLowerCase() || "",
+          tags: Array.from(card.querySelectorAll(".bg-secondary-container"))
+            .map((t) => t.textContent.toLowerCase())
+            .join(" "),
+        };
+      });
 
       let noResults = null;
       function getNoResults() {
@@ -529,13 +532,40 @@
 
       searchInput.addEventListener("input", applyFilters);
 
+      // Botón "Cerca de mí"
+      const nearMeBtn = document.querySelector('button.bg-tertiary-fixed');
+      let nearMeActive = false;
+
+      function setNearMeActive(active) {
+        nearMeActive = active;
+        if (active) {
+          nearMeBtn.style.background = "#00261a";
+          nearMeBtn.style.color = "#ffffff";
+        } else {
+          nearMeBtn.style.background = "";
+          nearMeBtn.style.color = "";
+        }
+      }
+
+      nearMeBtn.addEventListener("click", () => {
+        if (nearMeActive) {
+          suppliersData.forEach(({ el }) => cardGrid.insertBefore(el, getNoResults()));
+          setNearMeActive(false);
+        } else {
+          [...suppliersData]
+            .sort((a, b) => a.distance - b.distance)
+            .forEach(({ el }) => cardGrid.insertBefore(el, getNoResults()));
+          setNearMeActive(true);
+        }
+        applyFilters();
+      });
+
       sortSelect.addEventListener("change", function () {
+        setNearMeActive(false);
         const val = this.value;
         let sorted = [...suppliersData];
         if (val === "Calificación") {
           sorted.sort((a, b) => b.rating - a.rating);
-        } else if (val === "Cercanía") {
-          sorted.sort((a, b) => a.distance - b.distance);
         } else if (val === "Categoría") {
           sorted.sort((a, b) => a.name.localeCompare(b.name));
         }

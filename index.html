@@ -145,7 +145,7 @@
                     <th class="px-md py-sm">ESTADO</th>
                   </tr>
                 </thead>
-                <tbody class="text-body-sm divide-y divide-outline-variant/30">
+                <tbody id="orders-tbody" class="text-body-sm divide-y divide-outline-variant/30">
                   <tr class="hover:bg-tertiary-fixed/10 transition-colors">
                     <td class="px-md py-md font-bold text-primary">
                       #ORD-2931
@@ -360,10 +360,73 @@
     </script>
     <!-- FAB for quick action -->
     <button
+      id="fab-nuevo-pedido"
+      onclick="openOrderModal()"
       class="fixed bottom-[calc(76px+16px)] md:bottom-margin-desktop right-margin-mobile md:right-margin-desktop bg-tertiary text-on-tertiary w-14 h-14 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center z-40"
     >
       <span class="material-symbols-outlined">add</span>
     </button>
+    <!-- Modal Nuevo Pedido -->
+    <div id="order-modal" style="display:none;background:rgba(0,0,0,0.4)" class="fixed inset-0 z-50 flex items-center justify-center p-md" onclick="if(event.target===this)closeOrderModal()">
+      <div class="bg-surface rounded-2xl shadow-xl border border-outline-variant w-full max-w-lg">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-lg pt-lg pb-md border-b border-outline-variant">
+          <div class="flex items-center gap-sm">
+            <div class="w-9 h-9 rounded-lg bg-tertiary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary" style="font-size:20px">package_2</span>
+            </div>
+            <h2 class="font-headline-md text-headline-md text-primary">Nuevo Pedido</h2>
+          </div>
+          <button id="order-close" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">close</button>
+        </div>
+        <!-- Body -->
+        <div class="px-lg py-md space-y-md">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+            <div class="space-y-xs">
+              <label class="text-label-md text-on-surface-variant uppercase tracking-wider">Proveedor *</label>
+              <select id="order-proveedor" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary">
+                <option value="">Selecciona un proveedor</option>
+                <option>Logística del Norte S.A.</option>
+                <option>Suministros Globales SL</option>
+                <option>EcoEmpaque Innovación</option>
+                <option>Químicos y Resinas XYZ</option>
+                <option>Frutas &amp; Vegetales Prime</option>
+                <option>Componentes Electrónicos AC</option>
+              </select>
+            </div>
+            <div class="space-y-xs">
+              <label class="text-label-md text-on-surface-variant uppercase tracking-wider">Fecha de entrega *</label>
+              <input id="order-fecha" type="date" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary" />
+            </div>
+          </div>
+          <!-- Catálogo del proveedor -->
+          <div id="order-catalog-section" style="display:none" class="space-y-xs">
+            <div class="flex items-center justify-between">
+              <label class="text-label-md text-on-surface-variant uppercase tracking-wider">Productos / Servicios</label>
+              <span id="order-catalog-count" class="text-label-md font-bold" style="color:#00261a"></span>
+            </div>
+            <div id="order-catalog-grid" style="display:grid;gap:6px;max-height:176px;overflow-y:auto;padding-right:2px"></div>
+          </div>
+          <div class="space-y-xs">
+            <label class="text-label-md text-on-surface-variant uppercase tracking-wider">Notas adicionales</label>
+            <textarea id="order-desc" rows="2" placeholder="Especificaciones, cantidades u observaciones..." class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary resize-none"></textarea>
+          </div>
+          <div class="space-y-xs">
+            <label class="text-label-md text-on-surface-variant uppercase tracking-wider">Monto estimado (USD)</label>
+            <div class="relative">
+              <span class="absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant font-medium">$</span>
+              <input id="order-monto" type="number" min="0" placeholder="0.00" class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-8 pr-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary" />
+            </div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="flex gap-sm px-lg pb-lg pt-md border-t border-outline-variant">
+          <button id="order-submit" class="flex-1 bg-tertiary text-on-tertiary py-sm rounded-lg font-body-md hover:opacity-90 transition-all active:scale-95">Crear Pedido</button>
+          <button id="order-cancel" class="px-lg border border-outline-variant text-on-surface-variant py-sm rounded-lg hover:bg-surface-container transition-all">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast -->
     <div id="toast" class="fixed bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface px-lg py-sm rounded-full text-body-sm font-medium shadow-lg z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
@@ -380,25 +443,180 @@
         }, 2800);
       }
 
-      // Efecto de sombra en el header al hacer scroll
-      window.addEventListener("scroll", () => {
-        const header = document.querySelector("header");
-        if (window.scrollY > 20) {
-          header.classList.add("shadow-md");
+      // ── Catálogo por proveedor ───────────────────────────────────────────────
+      const SUPPLIER_CATALOG = {
+        "Logística del Norte S.A.": [
+          { name: "Transporte de Carga Pesada", price: "$1.25 / km" },
+          { name: "Almacenaje en Seco",         price: "$15.00 / m²" },
+          { name: "Distribución Last Mile",      price: "$4.50 / envío" },
+          { name: "Gestión de Aduanas",          price: "Desde $250.00" },
+        ],
+        "Suministros Globales SL": [
+          { name: "Telas Industriales",     price: "$4.80 / metro" },
+          { name: "Confección a Medida",    price: "Desde $2.10 / pza" },
+          { name: "Insumos de Manufactura", price: "Según catálogo" },
+          { name: "Control de Calidad",     price: "$350.00 / visita" },
+        ],
+        "EcoEmpaque Innovación": [
+          { name: "Cajas de Cartón Reciclado", price: "$0.45 / unidad" },
+          { name: "Bolsas Biodegradables",     price: "$0.18 / unidad" },
+          { name: "Empaques Personalizados",   price: "Desde $180.00" },
+          { name: "Consultoría de Packaging",  price: "$220.00 / sesión" },
+        ],
+        "Químicos y Resinas XYZ": [
+          { name: "Resinas Epóxicas",         price: "$12.50 / kg" },
+          { name: "Solventes Industriales",   price: "$8.90 / litro" },
+          { name: "Aditivos Plásticos",       price: "$22.00 / kg" },
+          { name: "Transporte Especializado", price: "Desde $450.00" },
+        ],
+        "Frutas & Vegetales Prime": [
+          { name: "Frutas de Temporada",    price: "$1.20 / kg" },
+          { name: "Verduras Frescas",       price: "$0.90 / kg" },
+          { name: "Hierbas Aromáticas",     price: "$0.60 / manojo" },
+          { name: "Paquetes Empresariales", price: "Desde $45.00 / caja" },
+        ],
+        "Componentes Electrónicos AC": [
+          { name: "Microcontroladores",    price: "$3.50 – $18.00 / u" },
+          { name: "Sensores Industriales", price: "Desde $12.00 / u" },
+          { name: "Fuentes de Poder",      price: "$28.00 – $120.00" },
+          { name: "Cableado y Conectores", price: "Según especificación" },
+        ],
+      };
+
+      function syncCatalogCount() {
+        const n = document.querySelectorAll("#order-catalog-grid .catalog-item[data-selected='true']").length;
+        const el = document.getElementById("order-catalog-count");
+        el.textContent = n > 0 ? `${n} seleccionado${n > 1 ? "s" : ""}` : "";
+      }
+
+      function toggleCatalogItem(el) {
+        const sel = el.dataset.selected === "true";
+        el.dataset.selected = !sel;
+        const check = el.querySelector(".item-check");
+        if (!sel) {
+          el.style.borderColor = "#00261a";
+          el.style.background = "rgba(191,237,214,0.15)";
+          check.style.background = "#00261a";
+          check.style.borderColor = "#00261a";
+          check.innerHTML = '<span class="material-symbols-outlined" style="font-size:13px;color:#fff;line-height:1">check</span>';
         } else {
-          header.classList.remove("shadow-md");
+          el.style.borderColor = "#cdc5ba";
+          el.style.background = "";
+          check.style.background = "";
+          check.style.borderColor = "#cdc5ba";
+          check.innerHTML = "";
         }
+        syncCatalogCount();
+      }
+
+      function renderCatalog(supplierName) {
+        const items = SUPPLIER_CATALOG[supplierName] || [];
+        const grid = document.getElementById("order-catalog-grid");
+        const section = document.getElementById("order-catalog-section");
+        if (!items.length) { section.style.display = "none"; return; }
+        grid.innerHTML = items.map(item => `
+          <div class="catalog-item flex items-center gap-sm p-sm rounded-lg border cursor-pointer transition-all"
+               style="border-color:#cdc5ba;border-width:1.5px"
+               data-selected="false"
+               onclick="toggleCatalogItem(this)">
+            <div class="item-check" style="width:16px;height:16px;border-radius:4px;border:1.5px solid #cdc5ba;flex-shrink:0;display:flex;align-items:center;justify-content:center"></div>
+            <div style="min-width:0;flex:1">
+              <p class="text-body-sm font-medium" style="margin:0">${item.name}</p>
+              <p class="text-label-md" style="margin:0;color:#4b463d">${item.price}</p>
+            </div>
+          </div>`).join("");
+        document.getElementById("order-catalog-count").textContent = "";
+        section.style.display = "";
+      }
+
+      // ── Modal Nuevo Pedido ───────────────────────────────────────────────────
+      const orderModal = document.getElementById("order-modal");
+
+      function openOrderModal() {
+        orderModal.style.display = "flex";
+      }
+      function closeOrderModal() {
+        orderModal.style.display = "none";
+        document.getElementById("order-catalog-section").style.display = "none";
+        document.getElementById("order-catalog-grid").innerHTML = "";
+        document.getElementById("order-catalog-count").textContent = "";
+      }
+
+      document.getElementById("order-proveedor").addEventListener("change", function () {
+        renderCatalog(this.value);
       });
 
-      // Interacción hover para las tarjetas
-      const cards = document.querySelectorAll(".bg-surface.border");
-      cards.forEach((card) => {
-        card.addEventListener("mouseenter", () => {
-          card.style.transform = "translateY(-2px)";
-        });
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = "translateY(0)";
-        });
+      document.getElementById("order-close").addEventListener("click", closeOrderModal);
+      document.getElementById("order-cancel").addEventListener("click", closeOrderModal);
+
+      let nextOrderId = 2932;
+
+      function formatDate(dateStr) {
+        if (!dateStr) return "—";
+        const [y, m, d] = dateStr.split("-");
+        const months = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+        return `${parseInt(d)} ${months[parseInt(m)-1]}, ${y}`;
+      }
+
+      document.getElementById("order-submit").addEventListener("click", () => {
+        const proveedor = document.getElementById("order-proveedor").value;
+        const desc      = document.getElementById("order-desc").value.trim();
+        const fecha     = document.getElementById("order-fecha").value;
+        const monto     = document.getElementById("order-monto").value.trim();
+
+        const selectedItems = Array.from(
+          document.querySelectorAll("#order-catalog-grid .catalog-item[data-selected='true']")
+        ).map(el => ({
+          name:  el.querySelector("p.font-medium").textContent.trim(),
+          price: el.querySelector("p.text-label-md").textContent.trim(),
+        }));
+
+        if (!proveedor) { showToast("⚠ Selecciona un proveedor"); return; }
+        if (!fecha)     { showToast("⚠ Indica la fecha de entrega esperada"); return; }
+        if (selectedItems.length === 0 && !desc) {
+          showToast("⚠ Selecciona al menos un producto o agrega una nota");
+          return;
+        }
+
+        const descCell = selectedItems.length > 0
+          ? selectedItems.map(i => `• ${i.name}`).join(", ") + (desc ? ` — ${desc}` : "")
+          : desc;
+
+        const tbody = document.getElementById("orders-tbody");
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-tertiary-fixed/10 transition-colors";
+        tr.style.cssText = "background:rgba(191,237,214,0.25);transition:background 1.2s ease";
+        tr.innerHTML = `
+          <td class="px-md py-md font-bold text-primary">#ORD-${nextOrderId}</td>
+          <td class="px-md py-md">${proveedor}</td>
+          <td class="px-md py-md text-on-surface-variant">${formatDate(fecha)}</td>
+          <td class="px-md py-md font-medium">${monto ? "$" + parseFloat(monto).toLocaleString("en-US", {minimumFractionDigits:2}) : "—"}</td>
+          <td class="px-md py-md">
+            <span class="inline-flex items-center px-sm py-[2px] rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold uppercase">Pendiente</span>
+          </td>`;
+        tbody.insertBefore(tr, tbody.firstChild);
+        setTimeout(() => tr.style.background = "", 1200);
+
+        nextOrderId++;
+        closeOrderModal();
+        showToast("✓ Pedido #ORD-" + (nextOrderId - 1) + " creado correctamente");
+
+        document.getElementById("order-proveedor").value = "";
+        document.getElementById("order-desc").value = "";
+        document.getElementById("order-fecha").value = "";
+        document.getElementById("order-monto").value = "";
+      });
+
+      // Efecto sombra header
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        header.classList.toggle("shadow-md", window.scrollY > 20);
+      });
+
+      // Hover tarjetas
+      document.querySelectorAll(".bg-surface.border").forEach((card) => {
+        card.addEventListener("mouseenter", () => card.style.transform = "translateY(-2px)");
+        card.addEventListener("mouseleave", () => card.style.transform = "translateY(0)");
       });
 
       // Botones hero
@@ -408,11 +626,6 @@
           if (text === "Ver Alertas") showToast("⚠ 3 pedidos requieren atención inmediata");
           else if (text === "Resumen Diario") showToast("📊 Resumen generado — función disponible próximamente");
         });
-      });
-
-      // FAB
-      document.querySelector("button.fixed").addEventListener("click", () => {
-        showToast("+ Función de nuevo pedido — próximamente");
       });
 
       // Botón "Ver Todo" pedidos

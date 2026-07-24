@@ -1,6 +1,21 @@
 // Navbar, footer y bottom navigation bar únicos para todo el sitio Fetchy.
 // Se inyectan con document.write durante el parseo inicial de la página
 // (patrón de "include" estático, sin necesidad de servidor ni build step).
+
+window._uiToast = function (msg) {
+  var t = document.getElementById("_ui-toast");
+  if (!t) {
+    t = document.createElement("div");
+    t.id = "_ui-toast";
+    t.style.cssText = "position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#1c1b1f;color:#fff;padding:8px 20px;border-radius:99px;font-size:13px;font-weight:500;z-index:9999;opacity:0;pointer-events:none;transition:opacity .25s;white-space:nowrap";
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = "1";
+  clearTimeout(t._t);
+  t._t = setTimeout(function () { t.style.opacity = "0"; }, 2600);
+};
+
 (function () {
   var NAV_ITEMS = [
     { key: "inicio", label: "Inicio", href: "index.html" },
@@ -46,8 +61,8 @@
       '        <button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80" type="button" aria-label="Notificaciones">notifications</button>' +
       '        <button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors scale-95 active:opacity-80" type="button" aria-label="Configuración">settings</button>' +
       "      </div>" +
-      '      <button class="hidden sm:inline-flex bg-tertiary text-on-tertiary px-md py-xs rounded-lg font-label-md hover:opacity-90 transition-all scale-95 active:opacity-80" type="button">Nuevo Pedido</button>' +
-      '      <img class="w-10 h-10 rounded-full border border-outline-variant object-cover" alt="Foto de perfil del usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_zUh4ULTQgtJWqSQlqn2xKBDtF86YkilrU62au7Ox2Lv6bIJeG-SxcjxNpAG5D9eE4dkzBC9iTpULd1_8jf4MJlmSmR42qdtedskEf56C1jK2s4q0ST4ESWuFwWn4Im4zwrOTHpUvUZHhc3bWZWNWc8CT9mMfYzu9DQasKVjmFktDeKFblVPMJI6edPqHdghpCi4ep02WVOFp787iJXkh2IkenSO_Q4_mKwPYkMoRnDDQJw1nJMzpmliKwX1KqTddq37OxptAbO4" />' +
+      '      <button onclick="if(typeof openOrderModal===\'function\')openOrderModal()" class="hidden sm:inline-flex bg-tertiary text-on-tertiary px-md py-xs rounded-lg font-label-md hover:opacity-90 transition-all scale-95 active:opacity-80" type="button">Nuevo Pedido</button>' +
+      '      <img onclick="_uiToast(\'Perfil de usuario — en construcción\')" class="w-10 h-10 rounded-full border border-outline-variant object-cover cursor-pointer hover:opacity-80 transition-opacity" alt="Foto de perfil del usuario" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_zUh4ULTQgtJWqSQlqn2xKBDtF86YkilrU62au7Ox2Lv6bIJeG-SxcjxNpAG5D9eE4dkzBC9iTpULd1_8jf4MJlmSmR42qdtedskEf56C1jK2s4q0ST4ESWuFwWn4Im4zwrOTHpUvUZHhc3bWZWNWc8CT9mMfYzu9DQasKVjmFktDeKFblVPMJI6edPqHdghpCi4ep02WVOFp787iJXkh2IkenSO_Q4_mKwPYkMoRnDDQJw1nJMzpmliKwX1KqTddq37OxptAbO4" />' +
       "    </div>" +
       "  </div>" +
       "</header>";
