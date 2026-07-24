@@ -1,0 +1,212 @@
+<!doctype html>
+
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Asistente de IA | Fetchy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="assets/tailwind-config.js"></script>
+    <link href="assets/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+    <script src="assets/components.js"></script>
+    <script>
+      renderHeader("ia");
+    </script>
+    <main class="flex-grow pt-24 pb-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
+      <section class="mb-lg space-y-xs">
+        <h1 class="font-headline-lg text-headline-lg text-primary">
+          Asistente de IA
+        </h1>
+        <p class="text-on-surface-variant max-w-2xl">
+          Resuelve dudas sobre pedidos, inventario y proveedores con Fetchy AI,
+          tu asistente inteligente de cadena de suministro.
+        </p>
+      </section>
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+        <!-- History sidebar (desktop only) -->
+        <aside
+          class="hidden lg:flex lg:col-span-1 flex-col bg-surface-container-lowest border border-outline-variant rounded-xl p-md card-shadow space-y-sm h-fit"
+        >
+          <h2 class="font-headline-md text-headline-md text-primary mb-xs">
+            Conversaciones
+          </h2>
+          <button
+            class="w-full flex items-center justify-center gap-xs bg-tertiary text-on-tertiary px-md py-sm rounded-lg font-label-md hover:opacity-90 transition-all"
+          >
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Nueva Conversación
+          </button>
+          <div class="space-y-xs pt-sm border-t border-outline-variant/30">
+            <button
+              class="w-full text-left px-sm py-sm rounded-lg bg-secondary-container text-on-secondary-container text-body-sm font-medium truncate"
+            >
+              Stock bajo en GreenEnergy Sol.
+            </button>
+            <button
+              class="w-full text-left px-sm py-sm rounded-lg hover:bg-surface-container-low text-on-surface-variant text-body-sm truncate transition-colors"
+            >
+              Comparar proveedores de transporte
+            </button>
+            <button
+              class="w-full text-left px-sm py-sm rounded-lg hover:bg-surface-container-low text-on-surface-variant text-body-sm truncate transition-colors"
+            >
+              Previsión de demanda Q4
+            </button>
+          </div>
+        </aside>
+        <!-- Chat panel -->
+        <section
+          class="lg:col-span-3 flex flex-col bg-surface-container-lowest border border-outline-variant rounded-xl card-shadow overflow-hidden"
+        >
+          <div
+            id="chat-log"
+            class="flex-1 p-md space-y-md overflow-y-auto custom-scrollbar h-[50vh] md:h-[55vh]"
+          >
+            <!-- AI message -->
+            <div class="flex gap-sm items-start">
+              <div
+                class="w-8 h-8 rounded-full bg-tertiary flex items-center justify-center flex-shrink-0"
+              >
+                <span class="material-symbols-outlined text-on-tertiary text-[18px]"
+                  >smart_toy</span
+                >
+              </div>
+              <div
+                class="bg-surface-container-low rounded-xl rounded-tl-none px-md py-sm max-w-[85%]"
+              >
+                <p class="text-body-md">
+                  Hola Alex, soy Fetchy AI. Puedo ayudarte a revisar
+                  inventario, comparar proveedores o anticipar riesgos en tu
+                  cadena de suministro. ¿En qué te ayudo hoy?
+                </p>
+              </div>
+            </div>
+            <!-- User message -->
+            <div class="flex gap-sm items-start justify-end">
+              <div
+                class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl rounded-tr-none px-md py-sm max-w-[85%]"
+              >
+                <p class="text-body-md">
+                  ¿Qué proveedores tienen riesgo de retraso esta semana?
+                </p>
+              </div>
+            </div>
+            <!-- AI message -->
+            <div class="flex gap-sm items-start">
+              <div
+                class="w-8 h-8 rounded-full bg-tertiary flex items-center justify-center flex-shrink-0"
+              >
+                <span class="material-symbols-outlined text-on-tertiary text-[18px]"
+                  >smart_toy</span
+                >
+              </div>
+              <div
+                class="bg-surface-container-low rounded-xl rounded-tl-none px-md py-sm max-w-[85%] space-y-xs"
+              >
+                <p class="text-body-md">
+                  Detecté 1 pedido en riesgo:
+                  <strong>#ORD-2919</strong> con Oceanic Freight, actualmente
+                  retrasado. Te recomiendo contactarlos o activar un proveedor
+                  alterno.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Suggested prompts -->
+          <div
+            class="flex flex-wrap gap-xs px-md pt-md border-t border-outline-variant/30"
+          >
+            <button
+              class="suggested-prompt px-sm py-1 rounded-full border border-outline-variant text-body-sm hover:bg-surface-container-low transition-colors"
+            >
+              Resumen de inventario
+            </button>
+            <button
+              class="suggested-prompt px-sm py-1 rounded-full border border-outline-variant text-body-sm hover:bg-surface-container-low transition-colors"
+            >
+              Mejores proveedores del mes
+            </button>
+            <button
+              class="suggested-prompt px-sm py-1 rounded-full border border-outline-variant text-body-sm hover:bg-surface-container-low transition-colors"
+            >
+              Riesgos de la cadena
+            </button>
+          </div>
+          <!-- Input -->
+          <form id="chat-form" class="flex items-center gap-sm p-md">
+            <input
+              id="chat-input"
+              class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm focus:outline-none focus:ring-2 focus:ring-on-tertiary-container text-body-md transition-all"
+              placeholder="Escribe tu pregunta..."
+              type="text"
+              autocomplete="off"
+            />
+            <button
+              class="bg-tertiary text-on-tertiary w-11 h-11 rounded-lg flex items-center justify-center hover:opacity-90 transition-all flex-shrink-0"
+              type="submit"
+              aria-label="Enviar mensaje"
+            >
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
+    <script>
+      renderFooter();
+    </script>
+    <script>
+      renderBottomNav("ia");
+    </script>
+    <script>
+      // Simulación básica de envío de mensajes en el chat de demostración
+      const chatLog = document.getElementById("chat-log");
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+
+      function appendMessage(text, from) {
+        const row = document.createElement("div");
+        if (from === "user") {
+          row.className = "flex gap-sm items-start justify-end";
+          row.innerHTML =
+            '<div class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl rounded-tr-none px-md py-sm max-w-[85%]"><p class="text-body-md"></p></div>';
+        } else {
+          row.className = "flex gap-sm items-start";
+          row.innerHTML =
+            '<div class="w-8 h-8 rounded-full bg-tertiary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-tertiary text-[18px]">smart_toy</span></div>' +
+            '<div class="bg-surface-container-low rounded-xl rounded-tl-none px-md py-sm max-w-[85%]"><p class="text-body-md"></p></div>';
+        }
+        row.querySelector("p").textContent = text;
+        chatLog.appendChild(row);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+
+      chatForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const value = chatInput.value.trim();
+        if (!value) return;
+        appendMessage(value, "user");
+        chatInput.value = "";
+        setTimeout(() => {
+          appendMessage(
+            "Estoy revisando la información. Esta es una vista de demostración del Asistente de IA.",
+            "ai"
+          );
+        }, 500);
+      });
+
+      document.querySelectorAll(".suggested-prompt").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chatInput.value = chip.textContent.trim();
+          chatInput.focus();
+        });
+      });
+    </script>
+  </body>
+</html>

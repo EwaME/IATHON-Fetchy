@@ -1,0 +1,476 @@
+<!doctype html>
+
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Directorio de Proveedores | Fetchy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="assets/tailwind-config.js"></script>
+    <link href="assets/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col">
+    <script src="assets/components.js"></script>
+    <script>
+      renderHeader("proveedores");
+    </script>
+    <main class="flex-grow pt-24 pb-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
+      <!-- Search & Filter Section -->
+      <section class="mb-lg space-y-md">
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-md"
+        >
+          <div class="flex-1 space-y-xs">
+            <h1 class="font-headline-lg text-headline-lg text-primary">
+              Directorio de Proveedores
+            </h1>
+            <p class="text-on-surface-variant max-w-2xl">
+              Encuentra y gestiona proveedores locales y globales para optimizar
+              tu cadena de suministro.
+            </p>
+          </div>
+          <div class="flex gap-sm">
+            <button
+              class="flex items-center gap-xs bg-tertiary-fixed text-tertiary px-md py-sm rounded-lg hover:opacity-90 transition-all font-body-sm"
+            >
+              <span class="material-symbols-outlined text-[20px]">near_me</span>
+              Cerca de mí
+            </button>
+          </div>
+        </div>
+        <!-- Enhanced Search Bar -->
+        <div
+          class="bg-surface-container-low p-sm rounded-xl border border-outline-variant/30 flex flex-col md:flex-row gap-sm items-center shadow-sm"
+        >
+          <div class="relative flex-1 w-full">
+            <span
+              class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant"
+              >search</span
+            >
+            <input
+              class="w-full pl-11 pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-on-tertiary-container text-body-md transition-all"
+              placeholder="Buscar por nombre o producto..."
+              type="text"
+            />
+          </div>
+          <div class="flex gap-sm w-full md:w-auto">
+            <div class="relative w-full md:w-48">
+              <span
+                class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant"
+                >sort</span
+              >
+              <select
+                class="w-full pl-11 pr-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-on-tertiary-container text-body-sm transition-all cursor-pointer"
+              >
+                <option>Cercanía</option>
+                <option>Calificación</option>
+                <option>Categoría</option>
+              </select>
+            </div>
+            <button
+              class="bg-surface-container-high p-sm rounded-lg hover:bg-outline-variant transition-colors"
+            >
+              <span class="material-symbols-outlined text-on-surface"
+                >filter_list</span
+              >
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Provider Bento Grid -->
+      <section
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter"
+      >
+        <!-- Provider Card 1 -->
+        <a
+          href="Suppliers_Details.html"
+          class="bg-surface-container-lowest border border-tertiary-fixed rounded-xl p-md card-shadow transition-all group cursor-pointer flex flex-col h-full"
+        >
+          <div class="flex items-start justify-between mb-md">
+            <div
+              class="w-16 h-16 bg-surface-container rounded-lg p-xs border border-outline-variant/20"
+            >
+              <img
+                class="w-full h-full object-contain"
+                alt="Logo de Logística del Norte S.A."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKnsJ7GTZGZGcar8EOkTmcXppvZPreoMgaNXJ2fojcys9z2XdQ81CW0j_ii-dGWxV5MZd9xsdz2pLTSSiDmxQq1MW1AAvj3orh9Xuuo5klMjpXT0AOSH8zZ34ihxIDfao3_boFJi-_OwlT-zAtxbCC0fXKwA9WrJj_2k34aW0ByDvhgLGLGTDLmMOgnmAtIsj5IZh8o_uFPy1xzpZME071P1CcGarr2Yz4tOiFHb0MYIvDHi3b7keGoibDntyEbLJ5-SGkDEDg33U"
+              />
+            </div>
+            <div
+              class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-sm py-1 rounded-full text-label-md flex items-center gap-xs"
+            >
+              <span class="material-symbols-outlined text-[16px]"
+                >location_on</span
+              >
+              1.2 km
+            </div>
+          </div>
+          <h3
+            class="font-headline-md text-primary mb-xs group-hover:text-tertiary transition-colors"
+          >
+            Logística del Norte S.A.
+          </h3>
+          <div class="flex items-center gap-xs mb-sm">
+            <span class="material-symbols-outlined text-yellow-500 fill-icon"
+              >star</span
+            >
+            <span class="font-bold text-body-sm">4.8</span>
+            <span class="text-on-surface-variant text-body-sm"
+              >(124 reseñas)</span
+            >
+          </div>
+          <div class="flex flex-wrap gap-xs mb-md">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Transporte</span
+            >
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Distribución</span
+            >
+          </div>
+          <div
+            class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
+          >
+            <span class="text-on-surface-variant text-body-sm"
+              >Disponible ahora</span
+            >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform"
+              >arrow_forward</span
+            >
+          </div>
+        </a>
+        <!-- Provider Card 2 -->
+        <a
+          href="Suppliers_Details.html"
+          class="bg-surface-container-lowest border border-tertiary-fixed rounded-xl p-md card-shadow transition-all group cursor-pointer flex flex-col h-full"
+        >
+          <div class="flex items-start justify-between mb-md">
+            <div
+              class="w-16 h-16 bg-surface-container rounded-lg p-xs border border-outline-variant/20"
+            >
+              <img
+                class="w-full h-full object-contain"
+                alt="Logo de Suministros Globales SL"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpoV279VElDJ0Fy3VZEdxx6HEo7zqv0g3bG-QE_a5Q3qac6T55tTj-kp7yw7NXMQLGA1Mns6xZMFPAuXZepRXaRg4Bl40z4z_Ic06tmkxvkxSm77SP89FFoztacW1zBoAEFppqNsvczqpOk7Qt7la0khQ5wdVE4lRhWBwFQhzA3khnMXbpe9mwzog09Yqm_48B2wlOyrOzPZLOBfB8AzB8ncqtqvBpO-xhtjt77f5OEAWDA0tMzPPJXMa8wOuvzGi5qBGeBTPQgic"
+              />
+            </div>
+            <div
+              class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-sm py-1 rounded-full text-label-md flex items-center gap-xs"
+            >
+              <span class="material-symbols-outlined text-[16px]"
+                >location_on</span
+              >
+              3.5 km
+            </div>
+          </div>
+          <h3
+            class="font-headline-md text-primary mb-xs group-hover:text-tertiary transition-colors"
+          >
+            Suministros Globales SL
+          </h3>
+          <div class="flex items-center gap-xs mb-sm">
+            <span class="material-symbols-outlined text-yellow-500 fill-icon"
+              >star</span
+            >
+            <span class="font-bold text-body-sm">4.5</span>
+            <span class="text-on-surface-variant text-body-sm"
+              >(89 reseñas)</span
+            >
+          </div>
+          <div class="flex flex-wrap gap-xs mb-md">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Manufactura</span
+            >
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Textiles</span
+            >
+          </div>
+          <div
+            class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
+          >
+            <span class="text-on-surface-variant text-body-sm"
+              >Tiempo de entrega: 2-3 días</span
+            >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform"
+              >arrow_forward</span
+            >
+          </div>
+        </a>
+        <!-- Provider Card 3 -->
+        <a
+          href="Suppliers_Details.html"
+          class="bg-surface-container-lowest border border-tertiary-fixed rounded-xl p-md card-shadow transition-all group cursor-pointer flex flex-col h-full"
+        >
+          <div class="flex items-start justify-between mb-md">
+            <div
+              class="w-16 h-16 bg-surface-container rounded-lg p-xs border border-outline-variant/20"
+            >
+              <img
+                class="w-full h-full object-contain"
+                alt="Logo de EcoEmpaque Innovación"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDHWPnsf2dyczIzOlHZDT4Tz2NDM6QxaVkgdmz1nKUcDoipf3tgviPi_xNVdQ1tvKSM15pstCUVdgHjx-bL_EGXyBTBOPg_0oT45TdYN41AEjh2tB4VBLVzWp6hEWXCP8kG_WCzBKJ0NQzVI_GXoQWWVSUDZB775QDc3l7sSyeZm_XXhotrxqhygaBDscvpXrasTorhJSxlXxyzSEInkN6suqrmCvmcq-ea9idGMc46svi5Dz3csTewfOslcEcqpFjoUGpqtDp_f8"
+              />
+            </div>
+            <div
+              class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-sm py-1 rounded-full text-label-md flex items-center gap-xs"
+            >
+              <span class="material-symbols-outlined text-[16px]"
+                >location_on</span
+              >
+              0.8 km
+            </div>
+          </div>
+          <h3
+            class="font-headline-md text-primary mb-xs group-hover:text-tertiary transition-colors"
+          >
+            EcoEmpaque Innovación
+          </h3>
+          <div class="flex items-center gap-xs mb-sm">
+            <span class="material-symbols-outlined text-yellow-500 fill-icon"
+              >star</span
+            >
+            <span class="font-bold text-body-sm">4.9</span>
+            <span class="text-on-surface-variant text-body-sm"
+              >(210 reseñas)</span
+            >
+          </div>
+          <div class="flex flex-wrap gap-xs mb-md">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Empaque</span
+            >
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Sostenible</span
+            >
+          </div>
+          <div
+            class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
+          >
+            <span class="text-tertiary font-bold text-body-sm"
+              >Socio Preferente</span
+            >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform"
+              >arrow_forward</span
+            >
+          </div>
+        </a>
+        <!-- Provider Card 4 -->
+        <a
+          href="Suppliers_Details.html"
+          class="bg-surface-container-lowest border border-tertiary-fixed rounded-xl p-md card-shadow transition-all group cursor-pointer flex flex-col h-full"
+        >
+          <div class="flex items-start justify-between mb-md">
+            <div
+              class="w-16 h-16 bg-surface-container rounded-lg p-xs border border-outline-variant/20"
+            >
+              <img
+                class="w-full h-full object-contain"
+                alt="Logo de Químicos y Resinas XYZ"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4i9B9Mh8nFbSNsDeCYRp0K2vhZuEZhHFSGOgElLg_y6DZP20er0t7ZZLJB2R2qitlQS5ttDaz-Xnz6ogt-JceiA57p29w_F7QQoOAg2kwoGr7pTXDTE_BnKKvjcXHMVGfw7FPNETUiCoqOsOcDNKO1YwjvPQtg4bn8q-iM7Tqj0FESH9ppNNjl7PxdrXBLnmJ59T_EAoMS0e_V0X6Ck6Ubt5AIQR4rEjQBouS2HpHSb-ostJ7PvdxYwoXKiTk7GMRgRJ87biUn5U"
+              />
+            </div>
+            <div
+              class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-sm py-1 rounded-full text-label-md flex items-center gap-xs"
+            >
+              <span class="material-symbols-outlined text-[16px]"
+                >location_on</span
+              >
+              5.2 km
+            </div>
+          </div>
+          <h3
+            class="font-headline-md text-primary mb-xs group-hover:text-tertiary transition-colors"
+          >
+            Químicos y Resinas XYZ
+          </h3>
+          <div class="flex items-center gap-xs mb-sm">
+            <span class="material-symbols-outlined text-yellow-500 fill-icon"
+              >star</span
+            >
+            <span class="font-bold text-body-sm">4.2</span>
+            <span class="text-on-surface-variant text-body-sm"
+              >(56 reseñas)</span
+            >
+          </div>
+          <div class="flex flex-wrap gap-xs mb-md">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Materia Prima</span
+            >
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Peligroso</span
+            >
+          </div>
+          <div
+            class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
+          >
+            <span class="text-on-surface-variant text-body-sm"
+              >Certificado ISO</span
+            >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform"
+              >arrow_forward</span
+            >
+          </div>
+        </a>
+        <!-- Provider Card 5 -->
+        <a
+          href="Suppliers_Details.html"
+          class="bg-surface-container-lowest border border-tertiary-fixed rounded-xl p-md card-shadow transition-all group cursor-pointer flex flex-col h-full"
+        >
+          <div class="flex items-start justify-between mb-md">
+            <div
+              class="w-16 h-16 bg-surface-container rounded-lg p-xs border border-outline-variant/20"
+            >
+              <img
+                class="w-full h-full object-contain"
+                alt="Logo de Frutas y Vegetales Prime"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA0iDw_ik80o9RBq1hMlgC5-82Qp7sjYnn7sAmrzBwBne525s36LfdRfxlqZk3ff8VOqsprn40qSFDkK3SgkfzF-823WARJ7IG0Ruv_hbobn5PvTYzGEJrDb4LV8-FoksIBt3C88PfjEMu9NzQYBHLFa9l1HrV8wkft3EvkqORI2buyTxFjSg_d65y1BQFfIycK8S0i1fYWuR6-sDfNChKPuikRHn5FNCjFbXI845odZHt3WxOnymz4hyxaiiND_EmrFgRWhwb3UQ"
+              />
+            </div>
+            <div
+              class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-sm py-1 rounded-full text-label-md flex items-center gap-xs"
+            >
+              <span class="material-symbols-outlined text-[16px]"
+                >location_on</span
+              >
+              2.1 km
+            </div>
+          </div>
+          <h3
+            class="font-headline-md text-primary mb-xs group-hover:text-tertiary transition-colors"
+          >
+            Frutas &amp; Vegetales Prime
+          </h3>
+          <div class="flex items-center gap-xs mb-sm">
+            <span class="material-symbols-outlined text-yellow-500 fill-icon"
+              >star</span
+            >
+            <span class="font-bold text-body-sm">4.7</span>
+            <span class="text-on-surface-variant text-body-sm"
+              >(142 reseñas)</span
+            >
+          </div>
+          <div class="flex flex-wrap gap-xs mb-md">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Alimentos</span
+            >
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Perecederos</span
+            >
+          </div>
+          <div
+            class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
+          >
+            <span class="text-on-surface-variant text-body-sm"
+              >Entrega en 24h</span
+            >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform"
+              >arrow_forward</span
+            >
+          </div>
+        </a>
+        <!-- Provider Card 6 -->
+        <a
+          href="Suppliers_Details.html"
+          class="bg-surface-container-lowest border border-tertiary-fixed rounded-xl p-md card-shadow transition-all group cursor-pointer flex flex-col h-full"
+        >
+          <div class="flex items-start justify-between mb-md">
+            <div
+              class="w-16 h-16 bg-surface-container rounded-lg p-xs border border-outline-variant/20"
+            >
+              <img
+                class="w-full h-full object-contain"
+                alt="Logo de Componentes Electrónicos AC"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKkGaOMPfZiWmcEA2h3QH6kiRzkjWnuhtIbntnU4ZCCmQ6j_f4zXReJeXbL25SKXQJcgNohVRs3OcvvJr1_lsfKn8SxX2I_zDE5gbkd1Twm2pTc5EMllsgKDcNe1sECHaGBCsE1IU8sL12XypqSlidgYmkNhGsEx3rrOtOhQMsXvoMYLFQMEZuptS8qo8QsxKF9k3JvUmPSjm8Z4GM9rwXkVjKIAq8242fWPkDvzGPNrlmHT8mjveBhlgeyQSlYDIzxc0I11wHTXI"
+              />
+            </div>
+            <div
+              class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-sm py-1 rounded-full text-label-md flex items-center gap-xs"
+            >
+              <span class="material-symbols-outlined text-[16px]"
+                >location_on</span
+              >
+              6.7 km
+            </div>
+          </div>
+          <h3
+            class="font-headline-md text-primary mb-xs group-hover:text-tertiary transition-colors"
+          >
+            Componentes Electrónicos AC
+          </h3>
+          <div class="flex items-center gap-xs mb-sm">
+            <span class="material-symbols-outlined text-yellow-500 fill-icon"
+              >star</span
+            >
+            <span class="font-bold text-body-sm">4.4</span>
+            <span class="text-on-surface-variant text-body-sm"
+              >(78 reseñas)</span
+            >
+          </div>
+          <div class="flex flex-wrap gap-xs mb-md">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Electrónica</span
+            >
+            <span
+              class="bg-secondary-container text-on-secondary-container px-xs py-0.5 rounded text-label-md"
+              >Hardware</span
+            >
+          </div>
+          <div
+            class="mt-auto border-t border-outline-variant pt-md flex items-center justify-between"
+          >
+            <span class="text-on-surface-variant text-body-sm"
+              >Stock Internacional</span
+            >
+            <span
+              class="material-symbols-outlined text-on-surface-variant group-hover:translate-x-1 transition-transform"
+              >arrow_forward</span
+            >
+          </div>
+        </a>
+      </section>
+      <!-- Pagination / Load More -->
+      <div class="mt-lg flex justify-center">
+        <button
+          class="bg-surface-container-high border border-outline-variant px-xl py-sm rounded-lg text-primary font-bold hover:bg-secondary-container transition-all scale-95 active:scale-90"
+        >
+          Cargar más proveedores
+        </button>
+      </div>
+    </main>
+    <script>
+      renderFooter();
+    </script>
+    <script>
+      renderBottomNav("proveedores");
+    </script>
+    <script>
+      // Micro-interacciones
+      document.querySelectorAll(".card-shadow").forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+          card.style.transform = "translateY(-4px)";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "translateY(0)";
+        });
+      });
+    </script>
+  </body>
+</html>

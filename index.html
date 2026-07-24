@@ -1,0 +1,390 @@
+<!doctype html>
+
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Inicio | Fetchy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="assets/tailwind-config.js"></script>
+    <link href="assets/style.css" rel="stylesheet" />
+  </head>
+  <body
+    class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden"
+  >
+    <script src="assets/components.js"></script>
+    <script>
+      renderHeader("inicio");
+    </script>
+    <!-- Main Content Canvas -->
+    <main class="flex-grow pt-24 pb-xl px-margin-mobile md:px-margin-desktop">
+      <div class="max-w-7xl mx-auto space-y-lg">
+        <!-- Hero Welcome -->
+        <section
+          class="relative overflow-hidden rounded-3xl p-lg bg-primary-container text-on-primary-container min-h-[320px] flex flex-col justify-center"
+        >
+          <div class="relative z-10 max-w-2xl space-y-md">
+            <h1 class="font-display text-display text-on-primary">
+              Bienvenido, Alex.
+            </h1>
+            <p
+              class="font-body-lg text-body-lg text-on-primary-container max-w-lg"
+            >
+              Tu cadena de suministro está operando al 98% de eficiencia hoy.
+              Hay 3 pedidos que requieren tu atención inmediata.
+            </p>
+            <div class="flex gap-sm">
+              <button
+                class="bg-tertiary-fixed text-on-tertiary-fixed px-lg py-sm rounded-lg font-body-md font-bold hover:bg-tertiary-fixed-dim transition-all"
+              >
+                Ver Alertas
+              </button>
+              <button
+                class="border border-on-primary-container text-on-primary px-lg py-sm rounded-lg font-body-md hover:bg-on-primary-container/20 transition-all"
+              >
+                Resumen Diario
+              </button>
+            </div>
+          </div>
+          <!-- Abstract visual element -->
+          <div
+            class="absolute right-0 top-0 h-full w-1/3 hidden lg:block opacity-20"
+          >
+            <div
+              class="h-full w-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-tertiary-fixed via-transparent to-transparent"
+            ></div>
+          </div>
+        </section>
+        <!-- KPIs Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+          <div
+            class="bg-surface border border-outline-variant p-md rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="flex justify-between items-start mb-sm">
+              <div class="p-xs bg-secondary-container rounded-lg">
+                <span
+                  class="material-symbols-outlined text-on-secondary-container"
+                  >payments</span
+                >
+              </div>
+              <span class="text-tertiary-fixed-dim font-bold text-label-md"
+                >+12.5% vs Mes Ant.</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-label-md">Inversión Total</p>
+            <h3 class="font-headline-lg text-headline-lg text-primary">
+              $1.2M
+              <span class="text-body-sm font-normal text-outline">USD</span>
+            </h3>
+          </div>
+          <div
+            class="bg-surface border border-outline-variant p-md rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="flex justify-between items-start mb-sm">
+              <div class="p-xs bg-tertiary-fixed rounded-lg">
+                <span class="material-symbols-outlined text-on-tertiary-fixed"
+                  >package_2</span
+                >
+              </div>
+              <span class="text-on-surface-variant font-bold text-label-md"
+                >4 Entregas Hoy</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-label-md">Pedidos Activos</p>
+            <h3 class="font-headline-lg text-headline-lg text-primary">48</h3>
+          </div>
+          <div
+            class="bg-surface border border-outline-variant p-md rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="flex justify-between items-start mb-sm">
+              <div class="p-xs bg-primary-fixed rounded-lg">
+                <span class="material-symbols-outlined text-on-primary-fixed"
+                  >group_add</span
+                >
+              </div>
+              <span class="text-error font-bold text-label-md"
+                >2 Pendientes</span
+              >
+            </div>
+            <p class="text-on-surface-variant font-label-md">
+              Nuevos Proveedores
+            </p>
+            <h3 class="font-headline-lg text-headline-lg text-primary">12</h3>
+          </div>
+        </section>
+        <!-- Bento Layout: Recent Orders & Top Suppliers -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+          <!-- Recent Orders Table -->
+          <section
+            class="lg:col-span-2 bg-surface border border-outline-variant rounded-2xl overflow-hidden shadow-sm flex flex-col"
+          >
+            <div
+              class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low"
+            >
+              <h2 class="font-headline-md text-headline-md text-primary">
+                Pedidos Recientes
+              </h2>
+              <button class="text-tertiary font-label-md hover:underline">
+                Ver Todo
+              </button>
+            </div>
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="bg-surface-container text-on-surface-variant font-label-md"
+                  >
+                    <th class="px-md py-sm">ID PEDIDO</th>
+                    <th class="px-md py-sm">PROVEEDOR</th>
+                    <th class="px-md py-sm">FECHA</th>
+                    <th class="px-md py-sm">TOTAL</th>
+                    <th class="px-md py-sm">ESTADO</th>
+                  </tr>
+                </thead>
+                <tbody class="text-body-sm divide-y divide-outline-variant/30">
+                  <tr class="hover:bg-tertiary-fixed/10 transition-colors">
+                    <td class="px-md py-md font-bold text-primary">
+                      #ORD-2931
+                    </td>
+                    <td class="px-md py-md">TechLogistics Global</td>
+                    <td class="px-md py-md text-on-surface-variant">
+                      24 Oct, 2024
+                    </td>
+                    <td class="px-md py-md font-medium">$42,500.00</td>
+                    <td class="px-md py-md">
+                      <span
+                        class="inline-flex items-center px-sm py-[2px] rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold uppercase"
+                        >En Tránsito</span
+                      >
+                    </td>
+                  </tr>
+                  <tr
+                    class="bg-primary/5 hover:bg-tertiary-fixed/10 transition-colors"
+                  >
+                    <td class="px-md py-md font-bold text-primary">
+                      #ORD-2928
+                    </td>
+                    <td class="px-md py-md">Pristine Parts Co.</td>
+                    <td class="px-md py-md text-on-surface-variant">
+                      22 Oct, 2024
+                    </td>
+                    <td class="px-md py-md font-medium">$12,800.00</td>
+                    <td class="px-md py-md">
+                      <span
+                        class="inline-flex items-center px-sm py-[2px] rounded-full bg-secondary-fixed text-on-secondary-fixed text-[10px] font-bold uppercase"
+                        >Pendiente</span
+                      >
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-tertiary-fixed/10 transition-colors">
+                    <td class="px-md py-md font-bold text-primary">
+                      #ORD-2925
+                    </td>
+                    <td class="px-md py-md">GreenEnergy Sol.</td>
+                    <td class="px-md py-md text-on-surface-variant">
+                      20 Oct, 2024
+                    </td>
+                    <td class="px-md py-md font-medium">$85,200.00</td>
+                    <td class="px-md py-md">
+                      <span
+                        class="inline-flex items-center px-sm py-[2px] rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase"
+                        >Completado</span
+                      >
+                    </td>
+                  </tr>
+                  <tr
+                    class="bg-primary/5 hover:bg-tertiary-fixed/10 transition-colors"
+                  >
+                    <td class="px-md py-md font-bold text-primary">
+                      #ORD-2919
+                    </td>
+                    <td class="px-md py-md">Oceanic Freight</td>
+                    <td class="px-md py-md text-on-surface-variant">
+                      18 Oct, 2024
+                    </td>
+                    <td class="px-md py-md font-medium">$3,400.00</td>
+                    <td class="px-md py-md">
+                      <span
+                        class="inline-flex items-center px-sm py-[2px] rounded-full bg-error-container text-on-error-container text-[10px] font-bold uppercase"
+                        >Retrasado</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+          <!-- Top Suppliers Spotlight -->
+          <section
+            class="bg-surface border border-outline-variant rounded-2xl p-md shadow-sm space-y-md"
+          >
+            <div class="flex justify-between items-center">
+              <h2 class="font-headline-md text-headline-md text-primary">
+                Proveedores Top
+              </h2>
+              <button class="material-symbols-outlined text-on-surface-variant">
+                more_vert
+              </button>
+            </div>
+            <div class="space-y-sm">
+              <!-- Supplier Card 1 -->
+              <a
+                href="Suppliers_Details.html"
+                class="flex items-center gap-sm p-sm rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors group"
+              >
+                <div
+                  class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    alt="Logo de TechLogistics Global"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlQL3O-p5o8Z6UmpCm_9XN6gJygEDDuDR0EjvNMkSBJGfQkEW_rYStZRYu_iZPI4okr7dXMjWcgXYpqdMvF3EA4DjIYb-90VNWUvGxqPChzdrMT4oC1lV_ybf4Yf2uD5DRogwahIgBheOwLg72x9n5zk7zdvP-B2bDByBfvggAhvB9UFPU2dPpc6mUDvMh33HBferwKEFIDh2Te-w0cV9fCwTjRg_T_NyxD19kW6IbB0YJ-GY6BxfYesUcRzCMjCGaPyqrBEZviOE"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-body-md font-bold text-primary">
+                    TechLogistics Global
+                  </h4>
+                  <p class="text-body-sm text-on-surface-variant">
+                    Confiabilidad: 99.8%
+                  </p>
+                </div>
+                <span
+                  class="material-symbols-outlined text-tertiary-fixed-dim opacity-0 group-hover:opacity-100 transition-opacity"
+                  >verified</span
+                >
+              </a>
+              <!-- Supplier Card 2 -->
+              <a
+                href="Suppliers_Details.html"
+                class="flex items-center gap-sm p-sm rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors group"
+              >
+                <div
+                  class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    alt="Logo de Pristine Parts Co."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmpvOhGND9HrXNMq_errJoXJlSX-51aaNFwWCHt9IUlWyfBwImulTrTt7UsqfPYAQs05tVadFvBj0u6SR6IE6Csj-kvvhgE4-IcfWE90y1fw891DV8HlarLphjrSJuzDpqNirpsz4Pt_2YnqQRkcz4BxujFVmIhLw8yCznCgRGMqfWE0jlDTaxwF3eD23UesAOOHdEwkzoshbEhDVZ27-e3X4QwJm1bx5HS1UaJRKrE5fED0r8e-Ihsf2JvJYaNmCevZ_wwIXLUXw"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-body-md font-bold text-primary">
+                    Pristine Parts Co.
+                  </h4>
+                  <p class="text-body-sm text-on-surface-variant">
+                    Confiabilidad: 97.4%
+                  </p>
+                </div>
+                <span
+                  class="material-symbols-outlined text-tertiary-fixed-dim opacity-0 group-hover:opacity-100 transition-opacity"
+                  >verified</span
+                >
+              </a>
+              <!-- Supplier Card 3 -->
+              <a
+                href="Suppliers_Details.html"
+                class="flex items-center gap-sm p-sm rounded-xl border border-outline-variant/30 hover:bg-surface-container-low transition-colors group"
+              >
+                <div
+                  class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container"
+                >
+                  <img
+                    class="w-full h-full object-cover"
+                    alt="Logo de GreenEnergy Sol."
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO3WQccASDmJtIfi7gUN-gMFCg7r7-BtEflMEBUJFzwSQDVsICJstrcxz6l2Z4OYWz01g5gsEvmYoRNMtxcX8P_rhZ64jXLmEwHQ9SqkclU-pP5DBM2g2_yH8uutPhusMJXQIxOH7hUOiqN0ExojLFt7LzHWvD5SmuMPG7GBv1kEbUeU7ES8SBGa9HwZRFWQEXqgyBC0HuVSu8wx9-oa5rZftG2IyvpPTRF1xoNIb5cgfT61I_DnoFzgDH4KKa-zCkxjeRS28Akg8"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-body-md font-bold text-primary">
+                    GreenEnergy Sol.
+                  </h4>
+                  <p class="text-body-sm text-on-surface-variant">
+                    Confiabilidad: 96.2%
+                  </p>
+                </div>
+                <span
+                  class="material-symbols-outlined text-tertiary-fixed-dim opacity-0 group-hover:opacity-100 transition-opacity"
+                  >verified</span
+                >
+              </a>
+            </div>
+            <a
+              href="MenuProveedores.html"
+              class="block text-center w-full py-sm rounded-lg border border-outline text-primary font-label-md hover:bg-surface-container transition-all"
+            >
+              Explorar Directorio
+            </a>
+          </section>
+        </div>
+        <!-- Promotional Banner / AI Assistant -->
+        <section
+          class="bg-tertiary-container text-on-tertiary-container rounded-3xl p-lg flex flex-col md:flex-row items-center gap-lg"
+        >
+          <div class="flex-grow space-y-sm">
+            <div
+              class="inline-flex items-center gap-xs px-sm py-[2px] bg-tertiary-fixed text-on-tertiary-fixed rounded-full text-[10px] font-bold uppercase"
+            >
+              Nuevo: Fetchy AI v2.0
+            </div>
+            <h2 class="font-headline-lg text-headline-lg text-on-tertiary">
+              Optimiza tu inventario con IA
+            </h2>
+            <p class="font-body-md text-on-tertiary-container/80 max-w-xl">
+              Nuestro nuevo modelo predice faltantes de stock antes de que
+              ocurran. Ahorra hasta un 15% en costos operativos analizando
+              patrones globales de envío.
+            </p>
+            <a
+              href="IA.html"
+              class="inline-block bg-on-tertiary text-tertiary-container px-lg py-sm rounded-lg font-bold mt-md hover:opacity-90 transition-all"
+            >
+              Prueba el Asistente
+            </a>
+          </div>
+          <div
+            class="w-full md:w-1/3 aspect-video rounded-2xl overflow-hidden relative border border-on-tertiary-container/20"
+          ></div>
+        </section>
+      </div>
+    </main>
+    <script>
+      renderFooter();
+    </script>
+    <script>
+      renderBottomNav("inicio");
+    </script>
+    <!-- FAB for quick action -->
+    <button
+      class="fixed bottom-[calc(76px+16px)] md:bottom-margin-desktop right-margin-mobile md:right-margin-desktop bg-tertiary text-on-tertiary w-14 h-14 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center z-40"
+    >
+      <span class="material-symbols-outlined">add</span>
+    </button>
+    <script>
+      // Efecto de sombra en el header al hacer scroll
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        if (window.scrollY > 20) {
+          header.classList.add("shadow-md");
+        } else {
+          header.classList.remove("shadow-md");
+        }
+      });
+
+      // Interacción hover para las tarjetas
+      const cards = document.querySelectorAll(".bg-surface.border");
+      cards.forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+          card.style.transform = "translateY(-2px)";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "translateY(0)";
+        });
+      });
+    </script>
+  </body>
+</html>
