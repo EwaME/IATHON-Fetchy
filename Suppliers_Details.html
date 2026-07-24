@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html class="light" lang="es">
   <head>
     <meta charset="utf-8" />
@@ -15,440 +14,411 @@
   </head>
   <body class="font-body-md text-on-surface bg-background min-h-screen flex flex-col">
     <script src="assets/components.js"></script>
-    <script>
-      renderHeader("proveedores");
-    </script>
+    <script>renderHeader("proveedores");</script>
+
     <main class="flex-grow max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-24 pb-lg w-full">
-      <!-- Breadcrumb / Back link -->
-      <a
-        href="MenuProveedores.html"
-        class="inline-flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors mb-md font-label-md"
-      >
+      <a href="MenuProveedores.html" class="inline-flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors mb-md font-label-md">
         <span class="material-symbols-outlined text-[20px]">arrow_back</span>
         Volver al Directorio
       </a>
-      <!-- Header Section -->
-      <header
-        class="bg-surface-container-lowest rounded-xl p-md border border-tertiary/10 card-shadow mb-gutter flex flex-col md:flex-row items-start md:items-center justify-between gap-md"
-      >
-        <div class="flex items-center gap-md">
-          <div
-            class="w-20 h-20 md:w-24 md:h-24 bg-tertiary-fixed rounded-xl flex items-center justify-center border border-outline-variant"
-          >
-            <span
-              class="material-symbols-outlined text-4xl text-tertiary"
-              style="font-size: 48px"
-              >local_shipping</span
-            >
-          </div>
-          <div>
-            <div class="flex flex-wrap items-center gap-sm mb-xs">
-              <h1 class="font-headline-lg text-headline-lg text-primary">
-                Logística del Norte S.A.
-              </h1>
-              <div
-                class="flex items-center bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full gap-1"
-              >
-                <span
-                  class="material-symbols-outlined text-sm fill-icon"
-                  style="font-size: 16px"
-                  >star</span
-                >
-                <span class="text-label-md font-bold">4.8</span>
-              </div>
-            </div>
-            <div class="flex flex-wrap gap-xs">
-              <span
-                class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-lg text-label-md"
-                >Transporte</span
-              >
-              <span
-                class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-lg text-label-md"
-                >Distribución</span
-              >
-              <span
-                class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-lg text-label-md"
-                >Almacenaje</span
-              >
-            </div>
-          </div>
+      <div id="supplier-content"></div>
+    </main>
+
+    <script>renderFooter();</script>
+    <script>renderBottomNav("proveedores");</script>
+
+    <!-- Modal de cotización -->
+    <div id="quote-modal" class="fixed inset-0 bg-black/40 z-50 hidden items-center justify-center p-md">
+      <div class="bg-surface rounded-2xl p-lg max-w-md w-full shadow-xl border border-outline-variant space-y-md">
+        <div class="flex justify-between items-center">
+          <h2 class="font-headline-md text-headline-md text-primary">Solicitar Cotización</h2>
+          <button id="close-modal" class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">close</button>
         </div>
-        <div class="flex gap-sm w-full md:w-auto">
-          <button
-            class="flex-1 md:flex-none px-lg py-3 bg-tertiary text-on-tertiary font-body-md rounded-lg hover:opacity-90 transition-all active:scale-95"
-          >
-            Solicitar Cotización
-          </button>
-          <button
-            class="p-3 border border-outline-variant text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all"
-            aria-label="Guardar en favoritos"
-          >
-            <span class="material-symbols-outlined">favorite</span>
-          </button>
+        <p class="text-body-sm text-on-surface-variant">
+          Completa los datos y <strong id="modal-supplier-name"></strong> te contactará pronto vía WhatsApp.
+        </p>
+        <div class="space-y-sm">
+          <input id="quote-empresa" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary" placeholder="Nombre de tu empresa" type="text" />
+          <input id="quote-email"   class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary" placeholder="Correo electrónico (opcional)" type="email" />
+          <textarea id="quote-desc" class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm text-body-md focus:outline-none focus:ring-2 focus:ring-tertiary resize-none" placeholder="Describe el servicio que necesitas..." rows="3"></textarea>
         </div>
-      </header>
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
-        <!-- Left Column: Info & Metrics -->
-        <div class="lg:col-span-1 space-y-gutter">
-          <!-- General Information -->
-          <section
-            class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow"
-          >
-            <h2
-              class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs"
-            >
-              Información General
-            </h2>
-            <div class="space-y-md">
-              <div class="flex items-start gap-sm">
-                <span class="material-symbols-outlined text-tertiary"
-                  >location_on</span
-                >
-                <div>
-                  <p
-                    class="text-label-md text-on-surface-variant uppercase tracking-wider"
-                  >
-                    Ubicación
-                  </p>
-                  <p class="text-body-md font-medium">
-                    Parque Industrial, Nave 4. (1.2 km de tu sede)
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-start gap-sm">
-                <span class="material-symbols-outlined text-tertiary"
-                  >schedule</span
-                >
-                <div>
-                  <p
-                    class="text-label-md text-on-surface-variant uppercase tracking-wider"
-                  >
-                    Entrega Promedio
-                  </p>
-                  <p class="text-body-md font-medium">24 - 48 horas</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-sm">
-                <span class="material-symbols-outlined text-tertiary"
-                  >verified</span
-                >
-                <div>
-                  <p
-                    class="text-label-md text-on-surface-variant uppercase tracking-wider"
-                  >
-                    Certificaciones
-                  </p>
-                  <div class="flex flex-wrap gap-xs mt-1">
-                    <span
-                      class="bg-tertiary-fixed-dim text-on-tertiary-fixed px-2 py-0.5 rounded text-xs font-bold"
-                      >ISO 9001</span
-                    >
-                    <span
-                      class="bg-tertiary-fixed-dim text-on-tertiary-fixed px-2 py-0.5 rounded text-xs font-bold"
-                      >OEA</span
-                    >
-                    <span
-                      class="bg-tertiary-fixed-dim text-on-tertiary-fixed px-2 py-0.5 rounded text-xs font-bold"
-                      >BASC</span
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- Performance Metrics -->
-          <section
-            class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow"
-          >
-            <h2
-              class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs"
-            >
-              Desempeño
-            </h2>
-            <div class="space-y-md">
-              <div>
-                <div class="flex justify-between items-center mb-1">
-                  <span class="text-body-sm font-medium">Confiabilidad</span>
-                  <span class="text-body-sm font-bold text-tertiary">98%</span>
-                </div>
-                <div
-                  class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden"
-                >
-                  <div
-                    class="h-full bg-tertiary rounded-full"
-                    style="width: 98%"
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between items-center mb-1">
-                  <span class="text-body-sm font-medium"
-                    >Cumplimiento de Plazos</span
-                  >
-                  <span class="text-body-sm font-bold text-tertiary">94%</span>
-                </div>
-                <div
-                  class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden"
-                >
-                  <div
-                    class="h-full bg-tertiary rounded-full"
-                    style="width: 94%"
-                  ></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between items-center mb-1">
-                  <span class="text-body-sm font-medium"
-                    >Calidad de Entrega</span
-                  >
-                  <span class="text-body-sm font-bold text-tertiary"
-                    >99.2%</span
-                  >
-                </div>
-                <div
-                  class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden"
-                >
-                  <div
-                    class="h-full bg-tertiary rounded-full"
-                    style="width: 99%"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-        <!-- Right Column: Catalog & Reviews -->
-        <div class="lg:col-span-2 space-y-gutter">
-          <!-- Catalog Section -->
-          <section
-            class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow"
-          >
-            <div
-              class="flex justify-between items-center mb-md border-b border-outline-variant pb-xs"
-            >
-              <h2 class="font-headline-md text-headline-md">
-                Catálogo de Servicios
-              </h2>
-              <button
-                class="text-primary font-medium hover:underline text-body-sm"
-              >
-                Ver todo
-              </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-              <!-- Product Item 1 -->
-              <div
-                class="flex gap-sm p-sm rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-all card-shadow-hover group"
-              >
-                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    class="w-full h-full object-cover"
-                    alt="Camión de carga en un centro logístico"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6mWZDTFol3Qdw-Ytbud-P_thqTXyxU1VKm4Sdo9c1cdUNK09AAZrG5PzcQmrVGXCiyHPMdo4QPz0rgGGy6gFr9QSEUzOUzul_htP9TFN7XoU9IAv3mKOKMdg_ygV_oidjhR8yYKEFxFEdw4DPS69Ve3pzu0g0lCMpjuVDtQv_W2Mg4LmLFXskWkvqURHkj24LWaQ4Tv5AHWYyPLeTit0D1o9BMvByQxlbjebMSq6zevfwlk0-H1FnEOIqJodCGKLOMXqjFp66pQI"
-                  />
-                </div>
-                <div class="flex flex-col justify-between py-1">
-                  <div>
-                    <h3 class="font-bold text-body-md">
-                      Transporte de Carga Pesada
-                    </h3>
-                    <p class="text-body-sm text-on-surface-variant">
-                      Rutas nacionales e internacionales
-                    </p>
-                  </div>
-                  <p class="text-tertiary font-bold">
-                    $1.25 / km
-                    <span class="text-xs font-normal text-on-surface-variant"
-                      >(Referencial)</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <!-- Product Item 2 -->
-              <div
-                class="flex gap-sm p-sm rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-all card-shadow-hover group"
-              >
-                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    class="w-full h-full object-cover"
-                    alt="Interior de un almacén moderno"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsRix66oUmFNgBkK8RiNB7ou2dR9RQp5R2byP90QrF_MD2sZELtm-VTkkEfSxI9I18mu4d_FITrBhDJv5tDMsK0-isT_prH1JcBRqEVaVCCX3UzRZlWKqfTWXs6Q4MCq6awxlVTiCDL4ECxH_5eY6RtYvmBV281OK48cSaxY4dL3POhUCpfWqnMbiXEbN3lAwPqa5iADzcm-ahQQfgPmPBJBv29MoXXYu5i3Zh7OEaeju5yWEjSICLZtGsn-f6gOmB08fPxptSS6o"
-                  />
-                </div>
-                <div class="flex flex-col justify-between py-1">
-                  <div>
-                    <h3 class="font-bold text-body-md">Almacenaje en Seco</h3>
-                    <p class="text-body-sm text-on-surface-variant">
-                      Espacio climatizado 24/7
-                    </p>
-                  </div>
-                  <p class="text-tertiary font-bold">
-                    $15.00 / m²
-                    <span class="text-xs font-normal text-on-surface-variant"
-                      >(Referencial)</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <!-- Product Item 3 -->
-              <div
-                class="flex gap-sm p-sm rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-all card-shadow-hover group"
-              >
-                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    class="w-full h-full object-cover"
-                    alt="Repartidor entregando un paquete con firma digital"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCksiqkNcUf7PXfIFE3y4KD_T8Y0Hj0NJaqR4-TUD-1ipi3JRzmGrGY3TC8-Frbk7bTOZVKOx21jJ9HzWH6vwwEKBYY__3lRfthsW7BxdEc7kxUD2qwqENQB8_CleXg5hzEZQ1zCQ3Q1z0kwuQNHW6S8raBF0lw4SgQ1EuoZe4zRNW2xL8F6Cz49kRgiC5rsecopbysaz9O88cbFundcdiM0V2319OAovcNjL6sftzzxEB1Qcbt4b67PCqTFVH_6gI4aNsVb8niJSs"
-                  />
-                </div>
-                <div class="flex flex-col justify-between py-1">
-                  <div>
-                    <h3 class="font-bold text-body-md">
-                      Distribución 'Last Mile'
-                    </h3>
-                    <p class="text-body-sm text-on-surface-variant">
-                      Entrega urbana especializada
-                    </p>
-                  </div>
-                  <p class="text-tertiary font-bold">
-                    $4.50 / env
-                    <span class="text-xs font-normal text-on-surface-variant"
-                      >(Referencial)</span
-                    >
-                  </p>
-                </div>
-              </div>
-              <!-- Product Item 4 -->
-              <div
-                class="flex gap-sm p-sm rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-all card-shadow-hover group"
-              >
-                <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                  <img
-                    class="w-full h-full object-cover"
-                    alt="Mapa digital con seguimiento de flota en tiempo real"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhf2ErbChiOS8fY2P48Ct5XJCOXZNSjSaCsEal25o_3tc0YtqwcCNleELVXsifuQBECychSfBCpTpfDqutWfbGXvOakdDd8PvC6YU0vknVhhKQMy6W0xBaON3kZMznQEVnkDE6U519wQyHVeELYOQlQ7MDhDHaqimp4DOTm85yjy6p0LTlOo478pizqmbLatZdFFa8Lnk0mQ-yZPUchpbe-XNCzZL0oyNf9Dvt63JZT514ndoTd0C-vk9SYwjebFzbjGGJng8dpqA"
-                  />
-                </div>
-                <div class="flex flex-col justify-between py-1">
-                  <div>
-                    <h3 class="font-bold text-body-md">Gestión de Aduanas</h3>
-                    <p class="text-body-sm text-on-surface-variant">
-                      Asesoría técnica y legal
-                    </p>
-                  </div>
-                  <p class="text-tertiary font-bold">
-                    Desde $250.00
-                    <span class="text-xs font-normal text-on-surface-variant"
-                      >(Referencial)</span
-                    >
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- Reviews Section -->
-          <section
-            class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow"
-          >
-            <h2
-              class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs"
-            >
-              Reseñas y Comentarios
-            </h2>
-            <div class="space-y-md">
-              <!-- Review 1 -->
-              <div
-                class="pb-md border-b border-outline-variant last:border-0 last:pb-0"
-              >
-                <div class="flex justify-between items-start mb-2">
-                  <div class="flex items-center gap-sm">
-                    <img
-                      class="w-10 h-10 rounded-full object-cover"
-                      alt="Foto de perfil de Mariana Torres"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_rPglju4_mJ8CrfZnK6CjdkStFg_pGzH5v1JDbWgRVo_aQc8b49BAb4tJZfEkx0XpbSKdCzFe__w2JXXTISD2xKN9LCIo6LtJowiXKYnNRpulg2xGBoVxVR83HVPYSF-9I2UY9otlYBCdVWoVCojR08V04-jBiv_wcsB-wR3fgqL7n8HAEPW42vcDw0AEGnUBgaOx3QOVLNuykdNqWKCIeLtu5_S7MLXYVkr6ZzP4UyaWyCiIryGxi8LDdJNft8EnZkv4BvTDPYU"
-                    />
-                    <div>
-                      <p class="text-body-md font-bold">Mariana Torres</p>
-                      <p class="text-body-sm text-on-surface-variant">
-                        Gerente de Compras - InduRetail
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex text-tertiary">
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                  </div>
-                </div>
-                <p class="text-body-md text-on-surface-variant">
-                  Excelente servicio. Llevamos trabajando con ellos más de un
-                  año y nunca han fallado en un plazo de entrega. La
-                  comunicación es fluida y el rastreo en tiempo real funciona
-                  perfecto.
-                </p>
-              </div>
-              <!-- Review 2 -->
-              <div
-                class="pb-md border-b border-outline-variant last:border-0 last:pb-0"
-              >
-                <div class="flex justify-between items-start mb-2">
-                  <div class="flex items-center gap-sm">
-                    <img
-                      class="w-10 h-10 rounded-full object-cover"
-                      alt="Foto de perfil de Carlos Méndez"
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRlJUWhTx9BfVZSEPGoZ6ANMQZnx1HBVAVG7qAj2ItAPRnGk7yjrgeYoWQelKFFCGxDJaWfl-8rzZjXEvfg0cDGe_8u24iXkW1pNSkzIyVoQooc6KS2YYWACAfpelJMSywRb3pHorUemF7svgCHM1Ww0rwTtP5U0KCEXNvAfkbrzIAwvbsjbtC3HBwIGj_q_OXlRZK-5ehCYlbCqKvQ0zFhBPUak_7nn7d9-Ghjd4Fj9h_wDfiiJ55VwK5UakAOHN6jWPdkrHKKHU"
-                    />
-                    <div>
-                      <p class="text-body-md font-bold">Carlos Méndez</p>
-                      <p class="text-body-sm text-on-surface-variant">
-                        Analista de Suministros - TechGlobal
-                      </p>
-                    </div>
-                  </div>
-                  <div class="flex text-tertiary">
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined fill-icon" style="font-size: 18px">star</span>
-                    <span class="material-symbols-outlined" style="font-size: 18px">star</span>
-                  </div>
-                </div>
-                <p class="text-body-md text-on-surface-variant">
-                  Buen proveedor, aunque a veces los costos de almacenaje son un
-                  poco más altos que la competencia. Sin embargo, la calidad del
-                  manejo de inventario lo justifica.
-                </p>
-              </div>
-            </div>
-          </section>
+        <div class="flex gap-sm">
+          <button id="send-quote"   class="flex-1 bg-tertiary text-on-tertiary py-sm rounded-lg font-body-md hover:opacity-90 transition-all">Enviar por WhatsApp</button>
+          <button id="cancel-quote" class="px-lg border border-outline-variant text-on-surface-variant py-sm rounded-lg hover:bg-surface-container transition-all">Cancelar</button>
         </div>
       </div>
-    </main>
-    <script>
-      renderFooter();
-    </script>
-    <script>
-      renderBottomNav("proveedores");
-    </script>
-    <script>
-      // Micro-interacción en botones
-      document.querySelectorAll("main button").forEach((btn) => {
-        btn.addEventListener("click", function () {
-          this.classList.add("scale-95");
-          setTimeout(() => this.classList.remove("scale-95"), 100);
-        });
-      });
+    </div>
 
-      // Animación hover para tarjetas del catálogo
-      document.querySelectorAll(".group").forEach((card) => {
-        card.addEventListener("mouseenter", () => {
-          card.querySelector("img").classList.add("scale-105");
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface px-lg py-sm rounded-full text-body-sm font-medium shadow-lg z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+    <script>
+      // ── Datos de los 6 proveedores ──────────────────────────────────────────
+      const SUPPLIERS = {
+        1: {
+          name: "Logística del Norte S.A.",
+          rating: 4.8, reviews: 124, distance: "1.2 km",
+          categories: ["Transporte", "Distribución", "Almacenaje"],
+          phone: "50498726485", phoneDisplay: "+504 9872-6485",
+          icon: "local_shipping",
+          location: "Parque Industrial, Nave 4 (1.2 km de tu sede)",
+          delivery: "24 – 48 horas",
+          certs: ["ISO 9001", "OEA", "BASC"],
+          metrics: [
+            { label: "Confiabilidad",           val: 98   },
+            { label: "Cumplimiento de Plazos",  val: 94   },
+            { label: "Calidad de Entrega",       val: 99.2 },
+          ],
+          catalog: [
+            { icon: "local_shipping", name: "Transporte de Carga Pesada", desc: "Rutas nacionales e internacionales", price: "$1.25 / km" },
+            { icon: "warehouse",      name: "Almacenaje en Seco",         desc: "Espacio climatizado 24/7",           price: "$15.00 / m²" },
+            { icon: "two_wheeler",    name: "Distribución Last Mile",      desc: "Entrega urbana especializada",       price: "$4.50 / envío" },
+            { icon: "gavel",          name: "Gestión de Aduanas",          desc: "Asesoría técnica y legal",           price: "Desde $250.00" },
+          ],
+          reviews: [
+            { name: "Mariana Torres", role: "Gerente de Compras – InduRetail",       stars: 5, text: "Excelente servicio. Más de un año trabajando con ellos y nunca han fallado en un plazo de entrega. La comunicación es fluida y el rastreo en tiempo real funciona perfecto." },
+            { name: "Carlos Méndez",  role: "Analista de Suministros – TechGlobal",  stars: 4, text: "Buen proveedor, aunque a veces los costos de almacenaje son un poco más altos que la competencia. La calidad del manejo de inventario lo justifica." },
+          ],
+        },
+        2: {
+          name: "Suministros Globales SL",
+          rating: 4.5, reviews: 89, distance: "3.5 km",
+          categories: ["Manufactura", "Textiles"],
+          phone: "50432505304", phoneDisplay: "+504 3250-5304",
+          icon: "factory",
+          location: "Zona Industrial Oeste, Bodega 12 (3.5 km de tu sede)",
+          delivery: "2 – 3 días hábiles",
+          certs: ["ISO 9001", "WRAP"],
+          metrics: [
+            { label: "Confiabilidad",           val: 92 },
+            { label: "Cumplimiento de Plazos",  val: 88 },
+            { label: "Calidad de Entrega",       val: 95 },
+          ],
+          catalog: [
+            { icon: "texture",      name: "Telas Industriales",     desc: "Poliéster, algodón y mezclas técnicas", price: "$4.80 / metro" },
+            { icon: "checkroom",    name: "Confección a Medida",    desc: "Producción en lote desde 500 pzas",     price: "Desde $2.10 / pza" },
+            { icon: "category",     name: "Insumos de Manufactura", desc: "Botones, hilos, cierres especiales",    price: "Según catálogo" },
+            { icon: "fact_check",   name: "Control de Calidad",     desc: "Inspección en planta y auditoría",      price: "$350.00 / visita" },
+          ],
+          reviews: [
+            { name: "Andrea Flores",  role: "Jefa de Producción – ModaTex",    stars: 5, text: "Excelentes materiales y tiempos de respuesta rápidos. La variedad de telas técnicas es impresionante." },
+            { name: "Roberto Suárez", role: "Gerente de Compras – Uniformex",  stars: 4, text: "Buena calidad general. En temporada alta los plazos se extienden un poco, pero siempre cumplen." },
+          ],
+        },
+        3: {
+          name: "EcoEmpaque Innovación",
+          rating: 4.9, reviews: 210, distance: "0.8 km",
+          categories: ["Empaque", "Sostenible"],
+          phone: "50496825978", phoneDisplay: "+504 9682-5978",
+          icon: "eco",
+          location: "Parque EcoIndustrial, Lote 3 (0.8 km de tu sede)",
+          delivery: "24 horas",
+          certs: ["ISO 14001", "FSC", "B Corp"],
+          metrics: [
+            { label: "Confiabilidad",           val: 99   },
+            { label: "Cumplimiento de Plazos",  val: 98   },
+            { label: "Calidad de Entrega",       val: 99.8 },
+          ],
+          catalog: [
+            { icon: "inventory_2",       name: "Cajas de Cartón Reciclado", desc: "Medidas estándar y personalizadas",   price: "$0.45 / unidad" },
+            { icon: "shopping_bag",      name: "Bolsas Biodegradables",     desc: "PLA certificado, varios tamaños",      price: "$0.18 / unidad" },
+            { icon: "palette",           name: "Empaques Personalizados",   desc: "Diseño e impresión ecológica",         price: "Desde $180.00" },
+            { icon: "tips_and_updates",  name: "Consultoría de Packaging",  desc: "Optimización de embalaje y costos",   price: "$220.00 / sesión" },
+          ],
+          reviews: [
+            { name: "Lucía Pacheco",      role: "Dir. Sostenibilidad – GreenRetail", stars: 5, text: "El mejor proveedor de empaques eco del mercado. Calidad impecable, entrega puntual y precio justo." },
+            { name: "Miguel Ángel Reyes", role: "Jefe de Logística – NaturBrand",    stars: 5, text: "Llevamos 2 años con ellos y siempre superan expectativas. Los empaques personalizados son de primera." },
+          ],
+        },
+        4: {
+          name: "Químicos y Resinas XYZ",
+          rating: 4.2, reviews: 56, distance: "5.2 km",
+          categories: ["Materia Prima", "Peligroso"],
+          phone: "50497330021", phoneDisplay: "+504 9733-0021",
+          icon: "science",
+          location: "Zona Industrial Norte, Nave 8 (5.2 km de tu sede)",
+          delivery: "3 – 5 días hábiles",
+          certs: ["ISO 9001", "OHSAS 18001"],
+          metrics: [
+            { label: "Confiabilidad",           val: 85 },
+            { label: "Cumplimiento de Plazos",  val: 80 },
+            { label: "Calidad de Entrega",       val: 90 },
+          ],
+          catalog: [
+            { icon: "science",        name: "Resinas Epóxicas",         desc: "Grado industrial, varias viscosidades",   price: "$12.50 / kg" },
+            { icon: "water_drop",     name: "Solventes Industriales",   desc: "Acetona, tolueno, xileno certificados",   price: "$8.90 / litro" },
+            { icon: "add_circle",     name: "Aditivos Plásticos",       desc: "Estabilizadores UV y antioxidantes",      price: "$22.00 / kg" },
+            { icon: "local_shipping", name: "Transporte Especializado", desc: "Mercancía peligrosa certificada",         price: "Desde $450.00" },
+          ],
+          reviews: [
+            { name: "Jorge Aguilar",   role: "Jefe de Planta – PlastikHN",   stars: 4, text: "Buenos productos y documentación completa. El proceso de pedido es algo lento pero el material llega en perfectas condiciones." },
+            { name: "Patricia Molina", role: "Compradora – QuimIndustria",    stars: 4, text: "Cumplen con las especificaciones técnicas. El servicio post-venta podría mejorar en tiempo de respuesta." },
+          ],
+        },
+        5: {
+          name: "Frutas & Vegetales Prime",
+          rating: 4.7, reviews: 142, distance: "2.1 km",
+          categories: ["Alimentos", "Perecederos"],
+          phone: null, phoneDisplay: null,
+          icon: "nutrition",
+          location: "Mercado Central, Pabellón 6 (2.1 km de tu sede)",
+          delivery: "24 horas (pedido antes de 8am)",
+          certs: ["HACCP", "BPA"],
+          metrics: [
+            { label: "Confiabilidad",           val: 95 },
+            { label: "Cumplimiento de Plazos",  val: 93 },
+            { label: "Calidad de Entrega",       val: 97 },
+          ],
+          catalog: [
+            { icon: "nutrition",   name: "Frutas de Temporada",    desc: "Mango, piña, melón, sandía",               price: "$1.20 / kg" },
+            { icon: "eco",         name: "Verduras Frescas",       desc: "Lechuga, tomate, zanahoria, brócoli",      price: "$0.90 / kg" },
+            { icon: "spa",         name: "Hierbas Aromáticas",     desc: "Cilantro, perejil, albahaca",              price: "$0.60 / manojo" },
+            { icon: "inventory_2", name: "Paquetes Empresariales", desc: "Cajas mixtas para restaurantes y hoteles", price: "Desde $45.00 / caja" },
+          ],
+          reviews: [
+            { name: "Carmen Vásquez", role: "Chef Ejecutiva – Hotel Royal",     stars: 5, text: "Frescura garantizada. Llevamos 3 años con ellos y nunca han entregado producto en mal estado. Altamente recomendados." },
+            { name: "Héctor Montoya", role: "Gerente – Restaurante La Mesa",    stars: 4, text: "Excelente calidad. A veces hay limitaciones fuera de temporada, pero siempre avisan con anticipación." },
+          ],
+        },
+        6: {
+          name: "Componentes Electrónicos AC",
+          rating: 4.4, reviews: 78, distance: "6.7 km",
+          categories: ["Electrónica", "Hardware"],
+          phone: null, phoneDisplay: null,
+          icon: "memory",
+          location: "Parque Tecnológico, Torre B (6.7 km de tu sede)",
+          delivery: "5 – 7 días hábiles",
+          certs: ["ISO 9001", "CE", "RoHS"],
+          metrics: [
+            { label: "Confiabilidad",           val: 90 },
+            { label: "Cumplimiento de Plazos",  val: 85 },
+            { label: "Calidad de Entrega",       val: 93 },
+          ],
+          catalog: [
+            { icon: "developer_board", name: "Microcontroladores",    desc: "Arduino, ESP32, PIC, STM32",         price: "$3.50 – $18.00 / u" },
+            { icon: "sensors",         name: "Sensores Industriales", desc: "Temperatura, presión, movimiento",   price: "Desde $12.00 / u" },
+            { icon: "power",           name: "Fuentes de Poder",      desc: "Reguladas, 5V–48V, hasta 500W",     price: "$28.00 – $120.00" },
+            { icon: "cable",           name: "Cableado y Conectores", desc: "Harness, JST, Molex certificados",  price: "Según especificación" },
+          ],
+          reviews: [
+            { name: "Ing. Samuel Portillo", role: "Director Técnico – AutomaTech",      stars: 4, text: "Buena variedad de componentes y documentación técnica completa. Los tiempos de importación pueden variar." },
+            { name: "Valeria Cruz",          role: "Jefa de Compras – ElectroIndustria", stars: 5, text: "Excelente atención y asesoría técnica. Siempre encuentro lo que necesito y los precios son competitivos." },
+          ],
+        },
+      };
+
+      // ── Leer ?id de la URL ──────────────────────────────────────────────────
+      const supplierId = parseInt(new URLSearchParams(location.search).get("id")) || 1;
+      const s = SUPPLIERS[supplierId] || SUPPLIERS[1];
+      document.title = `${s.name} | Fetchy`;
+
+      // ── Helpers ─────────────────────────────────────────────────────────────
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.remove("opacity-0");
+        t.classList.add("opacity-100");
+        clearTimeout(t._t);
+        t._t = setTimeout(() => { t.classList.remove("opacity-100"); t.classList.add("opacity-0"); }, 2800);
+      }
+
+      function starHtml(n) {
+        return Array.from({ length: 5 }, (_, i) =>
+          `<span class="material-symbols-outlined ${i < Math.floor(n) ? "fill-icon" : ""} text-tertiary" style="font-size:18px">star</span>`
+        ).join("");
+      }
+
+      // ── Render página ────────────────────────────────────────────────────────
+      function renderPage() {
+        const catsHtml = s.categories.map(c =>
+          `<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-lg text-label-md">${c}</span>`
+        ).join("");
+
+        const certsHtml = s.certs.map(c =>
+          `<span class="bg-tertiary-fixed-dim text-on-tertiary-fixed px-2 py-0.5 rounded text-xs font-bold">${c}</span>`
+        ).join("");
+
+        const metricsHtml = s.metrics.map(m => `
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-body-sm font-medium">${m.label}</span>
+              <span class="text-body-sm font-bold text-tertiary">${m.val}%</span>
+            </div>
+            <div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+              <div class="h-full bg-tertiary rounded-full" style="width:${m.val}%"></div>
+            </div>
+          </div>
+        `).join("");
+
+        const catalogHtml = s.catalog.map(item => `
+          <div class="flex gap-sm p-sm rounded-lg border border-outline-variant/30 hover:bg-surface-container-low transition-all group">
+            <div class="w-20 h-20 rounded-lg bg-surface-container flex items-center justify-center flex-shrink-0 border border-outline-variant/20">
+              <span class="material-symbols-outlined text-tertiary" style="font-size:36px">${item.icon}</span>
+            </div>
+            <div class="flex flex-col justify-between py-1">
+              <div>
+                <h3 class="font-bold text-body-md">${item.name}</h3>
+                <p class="text-body-sm text-on-surface-variant">${item.desc}</p>
+              </div>
+              <p class="text-tertiary font-bold">${item.price}</p>
+            </div>
+          </div>
+        `).join("");
+
+        const reviewsHtml = s.reviews.map(r => `
+          <div class="pb-md border-b border-outline-variant last:border-0 last:pb-0">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <p class="text-body-md font-bold">${r.name}</p>
+                <p class="text-body-sm text-on-surface-variant">${r.role}</p>
+              </div>
+              <div class="flex">${starHtml(r.stars)}</div>
+            </div>
+            <p class="text-body-md text-on-surface-variant">${r.text}</p>
+          </div>
+        `).join("");
+
+        const phoneRow = s.phoneDisplay ? `
+          <div class="flex items-start gap-sm">
+            <span class="material-symbols-outlined text-tertiary">call</span>
+            <div>
+              <p class="text-label-md text-on-surface-variant uppercase tracking-wider">Teléfono</p>
+              <p class="text-body-md font-medium">${s.phoneDisplay}</p>
+            </div>
+          </div>` : "";
+
+        const quoteBtnHtml = s.phone
+          ? `<button id="quote-open-btn" class="flex-1 md:flex-none px-lg py-3 bg-tertiary text-on-tertiary font-body-md rounded-lg hover:opacity-90 transition-all active:scale-95">Solicitar Cotización</button>`
+          : `<button class="flex-1 md:flex-none px-lg py-3 bg-surface-container-high text-on-surface-variant font-body-md rounded-lg opacity-60 cursor-not-allowed" disabled>Sin contacto directo</button>`;
+
+        document.getElementById("supplier-content").innerHTML = `
+          <header class="bg-surface-container-lowest rounded-xl p-md border border-tertiary/10 card-shadow mb-gutter flex flex-col md:flex-row items-start md:items-center justify-between gap-md">
+            <div class="flex items-center gap-md">
+              <div class="w-20 h-20 md:w-24 md:h-24 bg-tertiary-fixed rounded-xl flex items-center justify-center border border-outline-variant">
+                <span class="material-symbols-outlined text-tertiary" style="font-size:48px">${s.icon}</span>
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-sm mb-xs">
+                  <h1 class="font-headline-lg text-headline-lg text-primary">${s.name}</h1>
+                  <div class="flex items-center bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full gap-1">
+                    <span class="material-symbols-outlined fill-icon" style="font-size:16px">star</span>
+                    <span class="text-label-md font-bold">${s.rating}</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-xs">${catsHtml}</div>
+              </div>
+            </div>
+            <div class="flex gap-sm w-full md:w-auto">
+              ${quoteBtnHtml}
+              <button id="fav-btn" class="p-3 border border-outline-variant text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all" aria-label="Guardar en favoritos">
+                <span class="material-symbols-outlined">favorite</span>
+              </button>
+            </div>
+          </header>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+            <div class="lg:col-span-1 space-y-gutter">
+              <section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow">
+                <h2 class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs">Información General</h2>
+                <div class="space-y-md">
+                  <div class="flex items-start gap-sm">
+                    <span class="material-symbols-outlined text-tertiary">location_on</span>
+                    <div>
+                      <p class="text-label-md text-on-surface-variant uppercase tracking-wider">Ubicación</p>
+                      <p class="text-body-md font-medium">${s.location}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-sm">
+                    <span class="material-symbols-outlined text-tertiary">schedule</span>
+                    <div>
+                      <p class="text-label-md text-on-surface-variant uppercase tracking-wider">Entrega Promedio</p>
+                      <p class="text-body-md font-medium">${s.delivery}</p>
+                    </div>
+                  </div>
+                  ${phoneRow}
+                  <div class="flex items-start gap-sm">
+                    <span class="material-symbols-outlined text-tertiary">verified</span>
+                    <div>
+                      <p class="text-label-md text-on-surface-variant uppercase tracking-wider">Certificaciones</p>
+                      <div class="flex flex-wrap gap-xs mt-1">${certsHtml}</div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow">
+                <h2 class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs">Desempeño</h2>
+                <div class="space-y-md">${metricsHtml}</div>
+              </section>
+            </div>
+            <div class="lg:col-span-2 space-y-gutter">
+              <section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow">
+                <h2 class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs">Catálogo de Servicios</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">${catalogHtml}</div>
+              </section>
+              <section class="bg-surface-container-lowest rounded-xl p-md border border-outline-variant card-shadow">
+                <h2 class="font-headline-md text-headline-md mb-md border-b border-outline-variant pb-xs">Reseñas y Comentarios</h2>
+                <div class="space-y-md">${reviewsHtml}</div>
+              </section>
+            </div>
+          </div>
+        `;
+
+        // Botón cotización
+        const openBtn = document.getElementById("quote-open-btn");
+        if (openBtn) {
+          openBtn.addEventListener("click", () => {
+            document.getElementById("modal-supplier-name").textContent = s.name;
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+          });
+        }
+
+        // Favoritos toggle
+        const favBtn  = document.getElementById("fav-btn");
+        const favIcon = favBtn.querySelector(".material-symbols-outlined");
+        let isFav = false;
+        favBtn.addEventListener("click", () => {
+          isFav = !isFav;
+          favIcon.classList.toggle("fill-icon", isFav);
+          favIcon.style.color = isFav ? "#b00020" : "";
+          showToast(isFav ? "Guardado en favoritos" : "Eliminado de favoritos");
         });
-        card.addEventListener("mouseleave", () => {
-          card.querySelector("img").classList.remove("scale-105");
-        });
+      }
+
+      renderPage();
+
+      // ── Modal ────────────────────────────────────────────────────────────────
+      const modal = document.getElementById("quote-modal");
+
+      function closeModal() {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+
+      document.getElementById("close-modal").addEventListener("click", closeModal);
+      document.getElementById("cancel-quote").addEventListener("click", closeModal);
+      modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+      document.getElementById("send-quote").addEventListener("click", () => {
+        const empresa = document.getElementById("quote-empresa").value.trim();
+        const email   = document.getElementById("quote-email").value.trim();
+        const desc    = document.getElementById("quote-desc").value.trim();
+
+        if (!empresa || !desc) {
+          showToast("⚠ Completa empresa y descripción del servicio");
+          return;
+        }
+
+        const msg = [
+          "Hola, me contacto a través de *Fetchy*.",
+          `🏢 Empresa: ${empresa}`,
+          email ? `📧 Correo: ${email}` : null,
+          `📋 Servicio requerido:\n${desc}`,
+          "\n¿Podrían enviarme una cotización?",
+        ].filter(Boolean).join("\n");
+
+        closeModal();
+        window.open(`https://wa.me/${s.phone}?text=${encodeURIComponent(msg)}`, "_blank");
       });
     </script>
   </body>

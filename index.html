@@ -364,7 +364,22 @@
     >
       <span class="material-symbols-outlined">add</span>
     </button>
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-24 md:bottom-8 left-1/2 -translate-x-1/2 bg-on-surface text-surface px-lg py-sm rounded-full text-body-sm font-medium shadow-lg z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
     <script>
+      function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.remove("opacity-0");
+        toast.classList.add("opacity-100");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => {
+          toast.classList.remove("opacity-100");
+          toast.classList.add("opacity-0");
+        }, 2800);
+      }
+
       // Efecto de sombra en el header al hacer scroll
       window.addEventListener("scroll", () => {
         const header = document.querySelector("header");
@@ -384,6 +399,25 @@
         card.addEventListener("mouseleave", () => {
           card.style.transform = "translateY(0)";
         });
+      });
+
+      // Botones hero
+      document.querySelectorAll("section button").forEach((btn) => {
+        const text = btn.textContent.trim();
+        btn.addEventListener("click", () => {
+          if (text === "Ver Alertas") showToast("⚠ 3 pedidos requieren atención inmediata");
+          else if (text === "Resumen Diario") showToast("📊 Resumen generado — función disponible próximamente");
+        });
+      });
+
+      // FAB
+      document.querySelector("button.fixed").addEventListener("click", () => {
+        showToast("+ Función de nuevo pedido — próximamente");
+      });
+
+      // Botón "Ver Todo" pedidos
+      document.querySelector("button.text-tertiary").addEventListener("click", () => {
+        showToast("Ver todos los pedidos — próximamente");
       });
     </script>
   </body>

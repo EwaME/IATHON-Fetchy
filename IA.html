@@ -138,12 +138,20 @@
               Riesgos de la cadena
             </button>
           </div>
+          <!-- Command palette -->
+          <div id="cmd-palette" class="hidden mx-md mb-xs border border-outline-variant rounded-xl overflow-hidden shadow-lg bg-surface z-10">
+            <div class="px-md py-xs bg-surface-container-low border-b border-outline-variant flex items-center gap-xs">
+              <span class="material-symbols-outlined text-[16px] text-on-surface-variant">terminal</span>
+              <span class="text-label-md text-on-surface-variant font-medium">Comandos disponibles</span>
+            </div>
+            <ul id="cmd-list" class="divide-y divide-outline-variant/30 max-h-56 overflow-y-auto custom-scrollbar"></ul>
+          </div>
           <!-- Input -->
           <form id="chat-form" class="flex items-center gap-sm p-md">
             <input
               id="chat-input"
               class="flex-1 bg-surface-container-low border border-outline-variant rounded-lg px-md py-sm focus:outline-none focus:ring-2 focus:ring-on-tertiary-container text-body-md transition-all"
-              placeholder="Escribe tu pregunta..."
+              placeholder='Escribe tu pregunta o "/" para ver comandos...'
               type="text"
               autocomplete="off"
             />
@@ -165,26 +173,92 @@
       renderBottomNav("ia");
     </script>
     <script>
-      // Simulación básica de envío de mensajes en el chat de demostración
       const chatLog = document.getElementById("chat-log");
       const chatForm = document.getElementById("chat-form");
       const chatInput = document.getElementById("chat-input");
+
+      const KB = [
+        {
+          keys: ["inventario", "stock", "existencias", "almacen", "almacén"],
+          reply: "Tu inventario actual opera al 98% de eficiencia. Detecto stock bajo en 2 productos críticos:\n• Componentes eléctricos: 15 uds (mínimo recomendado: 50)\n• Empaques industriales: 8 uds (mínimo recomendado: 30)\nRecomiendo generar una orden de reposición esta semana con Logística del Norte S.A. o EcoEmpaque Innovación.",
+        },
+        {
+          keys: ["mejores", "top", "ranking", "destacado", "rendimiento", "mes"],
+          reply: "Top 3 proveedores del mes:\n1. EcoEmpaque Innovación — ⭐ 4.9 (210 reseñas) — Socio Preferente\n2. Logística del Norte S.A. — ⭐ 4.8 (124 reseñas) — 98% confiabilidad\n3. Frutas & Vegetales Prime — ⭐ 4.7 (142 reseñas) — Entrega en 24h",
+        },
+        {
+          keys: ["riesgo", "riesgos", "alerta", "alertas", "retraso", "retrasado", "problema"],
+          reply: "Detecté 1 pedido en riesgo inmediato:\n⚠ #ORD-2919 con Oceanic Freight — estado: Retrasado ($3,400 USD)\nAdemás, condiciones climáticas adversas en rutas de importación podrían afectar 2 entregas adicionales la próxima semana. Sugiero activar a Logística del Norte S.A. como proveedor alterno.",
+        },
+        {
+          keys: ["resumen", "informe", "reporte", "hoy", "diario", "summary"],
+          reply: "Resumen del día — 24 Jul 2026:\n📦 48 pedidos activos — 4 entregas esperadas hoy\n💰 Inversión total: $1.2M USD (+12.5% vs mes anterior)\n⚠ 1 pedido retrasado: #ORD-2919\n✅ Proveedores activos: 12 (2 nuevos en revisión)\n📈 Eficiencia general: 98%",
+        },
+        {
+          keys: ["pedido", "pedidos", "orden", "órdenes", "ordenes", "activo"],
+          reply: "Tus pedidos recientes:\n• #ORD-2931 — TechLogistics Global — En Tránsito ($42,500)\n• #ORD-2928 — Pristine Parts Co. — Pendiente ($12,800)\n• #ORD-2925 — GreenEnergy Sol. — Completado ($85,200)\n• #ORD-2919 — Oceanic Freight — Retrasado ⚠ ($3,400)\nTotal activos: 48 pedidos.",
+        },
+        {
+          keys: ["proveedor", "proveedores", "directorio", "contacto"],
+          reply: "Tienes 12 proveedores activos. Los más cercanos con disponibilidad inmediata:\n• Logística del Norte S.A. — 1.2 km — ☎ +504 9872-6485\n• EcoEmpaque Innovación — 0.8 km — ☎ +504 9682-5978\n• Frutas & Vegetales Prime — 2.1 km — Entrega 24h\n¿Quieres que prepare una solicitud de cotización?",
+        },
+        {
+          keys: ["precio", "costo", "cotización", "cotizacion", "cuánto", "cuanto", "tarifa"],
+          reply: "Precios referenciales de Logística del Norte S.A.:\n• Transporte de Carga Pesada: $1.25/km\n• Almacenaje en Seco: $15.00/m²\n• Distribución Last Mile: $4.50/envío\n• Gestión de Aduanas: desde $250.00\nPara solicitar una cotización formal, ve al perfil del proveedor y usa el botón 'Solicitar Cotización'.",
+        },
+        {
+          keys: ["eficiencia", "optimizar", "optimizar", "mejorar", "performance", "cadena"],
+          reply: "Tu cadena opera al 98% de eficiencia. Cuellos de botella identificados:\n1. Demoras en aduana para importaciones marítimas (+2 días promedio)\n2. Stock bajo en 2 categorías críticas\nResolviendo estos puntos podrías alcanzar 99.5% de eficiencia y reducir costos operativos hasta un 15%.",
+        },
+        {
+          keys: ["hola", "hi", "buenos", "buenas", "ayuda", "help"],
+          reply: "Hola, Alex. Soy Fetchy AI. Puedo ayudarte con:\n• Resumen de inventario y pedidos\n• Análisis de riesgos en tu cadena\n• Información de proveedores\n• Precios y cotizaciones\n• Eficiencia operativa\n¿Con qué te ayudo hoy?",
+        },
+      ];
+
+      function getReply(text) {
+        const q = text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+        for (const entry of KB) {
+          if (entry.keys.some((k) => q.includes(k))) return entry.reply;
+        }
+        return "No encontré información específica sobre eso en tu cadena de suministro. Prueba preguntarme sobre inventario, pedidos, proveedores, riesgos, precios o eficiencia.";
+      }
 
       function appendMessage(text, from) {
         const row = document.createElement("div");
         if (from === "user") {
           row.className = "flex gap-sm items-start justify-end";
           row.innerHTML =
-            '<div class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl rounded-tr-none px-md py-sm max-w-[85%]"><p class="text-body-md"></p></div>';
+            '<div class="bg-tertiary-fixed text-on-tertiary-fixed rounded-xl rounded-tr-none px-md py-sm max-w-[85%]"><p class="text-body-md whitespace-pre-line"></p></div>';
         } else {
           row.className = "flex gap-sm items-start";
           row.innerHTML =
             '<div class="w-8 h-8 rounded-full bg-tertiary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-tertiary text-[18px]">smart_toy</span></div>' +
-            '<div class="bg-surface-container-low rounded-xl rounded-tl-none px-md py-sm max-w-[85%]"><p class="text-body-md"></p></div>';
+            '<div class="bg-surface-container-low rounded-xl rounded-tl-none px-md py-sm max-w-[85%]"><p class="text-body-md whitespace-pre-line"></p></div>';
         }
         row.querySelector("p").textContent = text;
         chatLog.appendChild(row);
         chatLog.scrollTop = chatLog.scrollHeight;
+      }
+
+      function showTyping() {
+        const row = document.createElement("div");
+        row.id = "typing-indicator";
+        row.className = "flex gap-sm items-start";
+        row.innerHTML =
+          '<div class="w-8 h-8 rounded-full bg-tertiary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-tertiary text-[18px]">smart_toy</span></div>' +
+          '<div class="bg-surface-container-low rounded-xl rounded-tl-none px-md py-sm"><span class="flex gap-1 items-center h-5">' +
+          '<span class="w-2 h-2 rounded-full bg-on-surface-variant animate-bounce" style="animation-delay:0ms"></span>' +
+          '<span class="w-2 h-2 rounded-full bg-on-surface-variant animate-bounce" style="animation-delay:150ms"></span>' +
+          '<span class="w-2 h-2 rounded-full bg-on-surface-variant animate-bounce" style="animation-delay:300ms"></span>' +
+          "</span></div>";
+        chatLog.appendChild(row);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }
+
+      function hideTyping() {
+        const t = document.getElementById("typing-indicator");
+        if (t) t.remove();
       }
 
       chatForm.addEventListener("submit", (event) => {
@@ -193,20 +267,115 @@
         if (!value) return;
         appendMessage(value, "user");
         chatInput.value = "";
+        showTyping();
         setTimeout(() => {
-          appendMessage(
-            "Estoy revisando la información. Esta es una vista de demostración del Asistente de IA.",
-            "ai"
-          );
-        }, 500);
+          hideTyping();
+          appendMessage(getReply(value), "ai");
+        }, 700 + Math.random() * 400);
       });
 
       document.querySelectorAll(".suggested-prompt").forEach((chip) => {
         chip.addEventListener("click", () => {
           chatInput.value = chip.textContent.trim();
-          chatInput.focus();
+          chatForm.dispatchEvent(new Event("submit"));
         });
       });
+
+      // Command palette
+      const COMMANDS = [
+        { cmd: "/inventario",  icon: "inventory_2",  label: "Inventario",   desc: "Consultar stock y existencias actuales" },
+        { cmd: "/pedidos",     icon: "package_2",    label: "Pedidos",      desc: "Ver pedidos activos y recientes" },
+        { cmd: "/proveedores", icon: "storefront",   label: "Proveedores",  desc: "Directorio y datos de contacto" },
+        { cmd: "/riesgos",     icon: "warning",      label: "Riesgos",      desc: "Alertas y pedidos en riesgo" },
+        { cmd: "/resumen",     icon: "summarize",    label: "Resumen",      desc: "Snapshot del día completo" },
+        { cmd: "/precios",     icon: "sell",         label: "Precios",      desc: "Cotizaciones y tarifas referenciales" },
+        { cmd: "/eficiencia",  icon: "insights",     label: "Eficiencia",   desc: "Análisis de cuellos de botella" },
+        { cmd: "/hola",        icon: "waving_hand",  label: "Ayuda",        desc: "Ver capacidades del asistente" },
+      ];
+
+      const palette  = document.getElementById("cmd-palette");
+      const cmdList  = document.getElementById("cmd-list");
+      let activeIdx  = -1;
+      let filteredCmds = [];
+
+      function renderCmds(list) {
+        filteredCmds = list;
+        activeIdx = list.length ? 0 : -1;
+        cmdList.innerHTML = list.map((c, i) =>
+          `<li data-idx="${i}" class="cmd-item flex items-center gap-sm px-md py-sm cursor-pointer hover:bg-surface-container-low transition-colors ${i === 0 ? "bg-surface-container-low" : ""}">
+            <span class="material-symbols-outlined text-tertiary text-[20px]">${c.icon}</span>
+            <span class="font-bold text-body-sm text-primary w-28 shrink-0">${c.cmd}</span>
+            <span class="text-body-sm text-on-surface-variant truncate">${c.desc}</span>
+          </li>`
+        ).join("");
+        cmdList.querySelectorAll(".cmd-item").forEach(item => {
+          item.addEventListener("mousedown", (e) => {
+            e.preventDefault();
+            selectCmd(parseInt(item.dataset.idx));
+          });
+        });
+      }
+
+      function selectCmd(idx) {
+        const c = filteredCmds[idx];
+        if (!c) return;
+        chatInput.value = c.cmd.slice(1); // strip "/" → use as query
+        hidePalette();
+        chatForm.dispatchEvent(new Event("submit"));
+      }
+
+      function showPalette(query) {
+        const q = query.toLowerCase();
+        const list = COMMANDS.filter(c =>
+          q === "" || c.cmd.includes(q) || c.label.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q)
+        );
+        if (!list.length) { hidePalette(); return; }
+        renderCmds(list);
+        palette.classList.remove("hidden");
+      }
+
+      function hidePalette() {
+        palette.classList.add("hidden");
+        activeIdx = -1;
+        filteredCmds = [];
+      }
+
+      function highlightItem(idx) {
+        cmdList.querySelectorAll(".cmd-item").forEach((el, i) => {
+          el.classList.toggle("bg-surface-container-low", i === idx);
+        });
+      }
+
+      chatInput.addEventListener("input", () => {
+        const val = chatInput.value;
+        if (val.startsWith("/")) {
+          showPalette(val.slice(1));
+        } else {
+          hidePalette();
+        }
+      });
+
+      chatInput.addEventListener("keydown", (e) => {
+        if (palette.classList.contains("hidden")) return;
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          activeIdx = Math.min(activeIdx + 1, filteredCmds.length - 1);
+          highlightItem(activeIdx);
+          cmdList.children[activeIdx]?.scrollIntoView({ block: "nearest" });
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          activeIdx = Math.max(activeIdx - 1, 0);
+          highlightItem(activeIdx);
+          cmdList.children[activeIdx]?.scrollIntoView({ block: "nearest" });
+        } else if (e.key === "Enter" && activeIdx >= 0) {
+          e.preventDefault();
+          selectCmd(activeIdx);
+        } else if (e.key === "Escape") {
+          hidePalette();
+        }
+      });
+
+      chatInput.addEventListener("blur", () => setTimeout(hidePalette, 150));
     </script>
   </body>
 </html>

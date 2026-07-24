@@ -1,0 +1,29 @@
+<!doctype html>
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Página no encontrada | Fetchy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Hanken+Grotesk:wght@500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="/assets/tailwind-config.js"></script>
+    <link href="/assets/style.css" rel="stylesheet" />
+  </head>
+  <body class="bg-background text-on-background min-h-screen flex flex-col items-center justify-center font-body-md">
+    <script src="/assets/components.js"></script>
+    <script>renderHeader("");</script>
+    <main class="flex flex-col items-center justify-center flex-grow text-center px-margin-mobile gap-md">
+      <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 72px">search_off</span>
+      <h1 class="font-headline-lg text-headline-lg text-primary">Página no encontrada</h1>
+      <p class="text-on-surface-variant max-w-sm">La URL que buscas no existe. Regresa al inicio para continuar.</p>
+      <a href="/index.html" class="bg-tertiary text-on-tertiary px-lg py-sm rounded-lg font-body-md hover:opacity-90 transition-all mt-sm">
+        Volver al Inicio
+      </a>
+    </main>
+    <script>renderFooter();</script>
+    <script>renderBottomNav("");</script>
+  </body>
+</html>
